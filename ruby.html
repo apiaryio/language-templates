@@ -1,0 +1,12 @@
+<section name="ruby">
+  <p class="ioDesc">In</p>
+  <pre class="incoming brush:ruby">
+require 'rest_client'
+
+<% if @contentType is "application/x-www-form-urlencoded": %>values   = CGI::escape(<%= @helpers.escape @body %>)
+<% else if @contentType is "application/json":             %>values   = <%= @helpers.escape @body %>
+<% else if @body:                                          %>values   = <%= @helpers.escape @body %>
+<% end %><% if @headers?.length: %>headers  = {<%= @headers.map((h)=> ":#{@helpers.rubyKey h[0]} => \"#{h[1]}\"" ).join(', ') %>}
+<% end %>response = RestClient.<%= @method.toLowerCase() %> "<%= @apiUrl %><%= @url %>"<% if @body: %>, values<% end %><% if @headers?.length: %>, headers<% end %>
+</pre>
+</section>

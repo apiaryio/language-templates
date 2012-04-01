@@ -1,0 +1,5 @@
+<section name="raw">
+  <p class="ioDesc">In</p>
+  <pre class="incoming"><%= header.join(': ')+'\n' for header in @headers %></pre>
+  <pre class="incoming<%= @helpers.getContentTypeBrush @headers %>"><%= @body %></pre>
+</section>
