@@ -1,7 +1,7 @@
 <section name="curl">
   <p class="ioDesc">In</p>
   <pre class="incoming brush:shell">
-curl --include<% if @headers?.length: %><% for header in @headers: %> --header "<%= header[0]%>: <%= header[1] %>"<% end %> \
+curl --include<% if @headers: %><% for header,value of @headers: %> --header "<%= header %>: <%= value %>"<% end %> \
     <% end %><% if @method isnt 'GET': %> --request <%= @method %> \
     <% end %><% if @body: %> --data <%= @helpers.escape @body %> \
     <% end %>   "<%= @apiUrl %><%= @url %>"
