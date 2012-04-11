@@ -3,7 +3,7 @@
   <pre class="incoming brush:shell">
 curl --include<% if @headers: %><% for header,value of @headers: %> --header "<%= header %>: <%= value %>"<% end %> \
     <% end %><% if @method isnt 'GET': %> --request <%= @method %> \
-    <% end %><% if @body: %> --data <%= @helpers.escape @body %> \
+    <% end %><% if @body: %> --data <%= @helpers.escape @body.join('') %> \
     <% end %>   "<%= @apiUrl %><%= @url %>"
 </pre>
 </section>
