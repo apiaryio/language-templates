@@ -4,10 +4,11 @@
 require 'rubygems'
 require 'rest_client'
 
-<% if @contentType is "application/x-www-form-urlencoded": %>values   = CGI::escape(<%= @helpers.escape @body.join('') %>)
-<% else if @contentType is "application/json":             %>values   = <%= @helpers.escape @body.join('') %>
-<% else if @body:                                          %>values   = <%= @helpers.escape @body.join('') %>
-<% end %><% if @headers: %>headers  = {<%= [':'+@helpers.rubyKey header+' => "'+value+'"' for header,value of @headers].join(", ") %>}
-<% end %>response = RestClient.<%= @method.toLowerCase() %> "<%= @apiUrl %><%= @url %>"<% if @body: %>, values<% end %><% if @headers: %>, headers<% end %>
+<% if @body and @contentType is "application/x-www-form-urlencoded": %>values   = CGI::escape(<%= @helpers.escape @body.join('') %>)
+<% else if @body and @contentType is "application/json":             %>values   = <%= @helpers.escape @body.join('') %>
+<% else if @body:                                                    %>values   = <%= @helpers.escape @body.join('') %>
+<% end %><% if @helpers.isNotEmpty @headers: %>headers  = {<%= [':'+@helpers.rubyKey header+' => "'+value+'"' for header,value of @headers].join(", ") %>}
+<% end %>response = RestClient.<%= @method.toLowerCase() %> "<%= @apiUrl %><%= @url %>"<% if @body: %>, values<% end %><% if @helpers.isNotEmpty @headers: %>, headers<% end %>
+puts response
 </pre>
 </section>
