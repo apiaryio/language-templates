@@ -1,0 +1,16 @@
+<section name="javascript">
+  <p class="ioDesc">In</p>
+  <pre class="incoming brush:javascript">
+    var xhr = new XMLHttpRequest();
+    xhr.open('<%= @method.toUpperCase() %>', '<%= @apiUrl %><%= @url %>');
+    <% for header, value of @headers: %>
+    xhr.setRequestHeader("<%= header %>", "<%= value %>");
+    <% end %>
+    xhr.onreadystatechange = function () {
+      if (this.status == 200 && this.readyState == 4) {
+        alert(this.responseText);
+      }
+    };
+    xhr.send(<%= @helpers.escape @body.join('') %>);
+  </pre>
+</section>
