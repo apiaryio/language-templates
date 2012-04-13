@@ -2,7 +2,7 @@ This repository lists language templates used to power code samples in Apiary's 
 
 ## Interface
 
-The following are variables and helper methods you can use when rendering the code for a request:
+The HTML templates are written in [Eco](https://github.com/sstephenson/eco), which places data between `<%=` and `%>` tags and control structures between `<%` and `%>`. The following are variables and helper methods you can use when rendering the code for a request:
 
 - **@headers** - HTTP headers to be sent
 - **@body** - HTTP body to be sent
