@@ -1,4 +1,4 @@
-<section name="nodejs">
+<section name="nodejs" class="nodejs">
   <p class="ioDesc">In</p>
   <pre class="incoming brush:js">
 var request = require("request");
@@ -11,7 +11,7 @@ request({
   headers: {<%= ("#{@helpers.escape header}: #{@helpers.escape value}" for header,value of @headers).join(", ") %>}, <% end %>
   method: "<%= @method.toUpperCase() %>"
 }, function (error, response, body) {
-<% end %>  console.log("Reponse received", response);
+<% end %>  console.log("Reponse received", body);
 });
 
 </section>
