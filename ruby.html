@@ -6,9 +6,9 @@ require 'rest_client'
 
 <% if @body and @contentType is "application/x-www-form-urlencoded": %>values   = CGI::escape(<%= @helpers.escape @body.join('') %>)
 <% else if @body and @contentType is "application/json":             %>values   = <%= @helpers.escape @body.join('') %>
-<% else if @body:                                                    %>values   = <%= @helpers.escape @body.join('') %>
+<% else if @body and @body.join(''):                                                    %>values   = <%= @helpers.escape @body.join('') %>
 <% end %><% if @helpers.isNotEmpty @headers: %>headers  = {<%= [':'+@helpers.rubyKey header+' => '+@helpers.escape value for header,value of @headers].join(", ") %>}
-<% end %>response = RestClient.<%= @method.toLowerCase() %> "<%= @apiUrl %><%= @url %>"<% if @body: %>, values<% end %><% if @helpers.isNotEmpty @headers: %>, headers<% end %>
+<% end %>response = RestClient.<%= @method.toLowerCase() %> "<%= @apiUrl %><%= @url %>"<% if @body and @body.join(''): %>, values<% end %><% if @helpers.isNotEmpty @headers: %>, headers<% end %>
 puts response
 </pre>
 </section>
