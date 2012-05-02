@@ -1,0 +1,11 @@
+<section name="scala">
+  <p class="ioDesc">In</p>
+  <pre class="incoming brush:scala">
+	import dispatch._
+	val h = new Http
+	val req = url("<%= @apiUrl %><%= @url %>") 	
+	<% if @helpers.isNotEmpty @headers: %>    <:< Map(<%= ("#{@helpers.escape header} -> #{@helpers.escape value}" for header,value of @headers).join(", ") %>)<% end %>)
+	<% if @method is "POST" %>    <<  <% else if @method is "PUT" %>    <<< <% end %><% if @method is not "GET" %><%= @helpers.escape @body.join('') %><% end %>
+	h(req<% if @method is "DELETE" %>.DELETE<% end %> >>> System.out)  
+  </pre>
+</section>
