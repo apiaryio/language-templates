@@ -11,7 +11,10 @@ request({
   headers: {<%= ("#{@helpers.escape header}: #{@helpers.escape value}" for header,value of @headers).join(", ") %>}, <% end %>
   method: "<%= @method.toUpperCase() %>"
 }, function (error, response, body) {
-<% end %>  console.log("Reponse received", body);
+<% end %>  
+  console.log("Status", response.statusCode);
+  console.log("Headers", JSON.stringify(response.headers));
+  console.log("Reponse received", body);
 });
 
 </section>

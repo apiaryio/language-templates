@@ -7,8 +7,8 @@
     xhr.setRequestHeader(<%= @helpers.escape header %>, <%= @helpers.escape value %>);
     <% end %>
     xhr.onreadystatechange = function () {
-      if (this.status == 200 && this.readyState == 4) {
-        alert(this.responseText);
+      if (this.readyState == 4) {
+        alert('Status: '+this.status+\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'\nBody: '+this.responseText);
       }
     };
     xhr.send(<%= @helpers.escape @body.join('') %>);
