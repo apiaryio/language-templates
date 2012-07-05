@@ -1,7 +1,7 @@
 <section name="ruby" class="ruby">
   <p class="ioDesc">In</p>
   <pre class="incoming brush:ruby">
-require 'rubygems'
+<% if RUBY_VERSION < "1.9" %>require 'rubygems'<% end %>
 require 'rest_client'
 
 <% if @body and @contentType is "application/x-www-form-urlencoded": %>values   = CGI::escape(<%= @helpers.escape @body.join('') %>)
