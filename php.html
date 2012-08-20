@@ -1,0 +1,22 @@
+<section name="php" class="php">
+  <p class="ioDesc">In</p>
+  <pre class="incoming brush:php">
+
+<% headerFirst = true %>
+
+<%= "<?php" %>
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, "<%= @apiUrl %><%= @url %>");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+<% if @method is 'POST': %>curl_setopt($ch, CURLOPT_POST, TRUE);
+<% end %><% if @method isnt 'GET' and @method isnt 'POST': %>curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "<%= @method %>");
+<% end %><% if @body and @body.length > 0: %>curl_setopt($ch, CURLOPT_POSTFIELDS, <%= @helpers.escape @body.join('') %>);
+<% end %><% if @headers and @helpers.isNotEmpty(@headers): %>curl_setopt($ch, CURLOPT_HTTPHEADER, array(<% for header, value of @headers: %><% if headerFirst: %><% headerFirst = false %><% else: %>, <% end %><%= @helpers.escape "#{header}: #{value}" %><% end %>));
+<% end %>$response = curl_exec($ch);
+curl_close($ch);
+
+echo $response;
+
+  </pre>
+</section>
