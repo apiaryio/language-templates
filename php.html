@@ -17,9 +17,7 @@ curl_setopt($ch, CURLOPT_HEADER, FALSE);
 <% end %>$response = curl_exec($ch);
 curl_close($ch);
 
-echo $response;
-
-<%= "?>" %>
+var_dump($response);
 
   </pre>
 </section>
