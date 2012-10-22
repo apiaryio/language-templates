@@ -11,7 +11,7 @@
         alert('Status: '+this.status+'\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'\nBody: '+this.responseText);
       }
     };
-    xhr.send(<%= @helpers.escape @body.join('') %>);
+    xhr.send(<%= @helpers.escape @body.split('\n').join('') %>);
   </pre>
   <pre class="jsRunCode" style="display: none">
     var xhr = new XMLHttpRequest();

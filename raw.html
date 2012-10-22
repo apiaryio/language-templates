@@ -1,5 +1,5 @@
 <section name="raw" class="raw">
   <p class="ioDesc">In</p>
   <pre class="incoming"><%= "#{header}: #{value}\n" for header, value of @headers %></pre>
-  <pre class="incoming<%= @helpers.getContentTypeBrush @headers %>"><%= @body.join('\n') %></pre>
+  <pre class="incoming<%= @helpers.getContentTypeBrush @headers %>"><%= @body %></pre>
 </section>
