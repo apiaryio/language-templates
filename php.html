@@ -12,7 +12,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 curl_setopt($ch, CURLOPT_HEADER, FALSE);
 <% if @method is 'POST': %>curl_setopt($ch, CURLOPT_POST, TRUE);
 <% end %><% if @method isnt 'GET' and @method isnt 'POST': %>curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "<%= @method %>");
-<% end %><% if @body and @body.length > 0: %>curl_setopt($ch, CURLOPT_POSTFIELDS, <%= @helpers.escape @body.split('\n').join('') %>);
+<% end %><% if @body : %>curl_setopt($ch, CURLOPT_POSTFIELDS, <%= @helpers.escape @body.split('\n').join('') %>);
 <% end %><% if @headers and @helpers.isNotEmpty(@headers): %>curl_setopt($ch, CURLOPT_HTTPHEADER, array(<% for header, value of @headers: %><% if headerFirst: %><% headerFirst = false %><% else: %>, <% end %><%= @helpers.escape "#{header}: #{value}" %><% end %>));
 <% end %>$response = curl_exec($ch);
 curl_close($ch);
