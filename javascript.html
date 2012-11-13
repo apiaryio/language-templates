@@ -11,7 +11,7 @@
         alert('Status: '+this.status+'\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'\nBody: '+this.responseText);
       }
     };
-    xhr.send(<% if @body : %><%= @helpers.escape @body?.split('\n').join('') %><% end %>);
+    xhr.send(<%= @helpers.escape @body.join("\n") %>);
   </pre>
   <pre class="jsRunCode" style="display: none">
     var xhr = new XMLHttpRequest();
@@ -29,6 +29,6 @@
         }
       }
     };
-    xhr.send(<% if @body : %><%= @helpers.escape @body.split('\n').join('') %><% end %>);
+    xhr.send(<%= @helpers.escape @body.join("\n") %>);
   </pre>
 </section>

@@ -5,15 +5,22 @@
 <% headerFirst = true %>
 
 <%= "<?php" %>
-
+<% eos = "<<<EOT\n" %>
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, "<%= @apiUrl %><%= @url %>");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 curl_setopt($ch, CURLOPT_HEADER, FALSE);
 <% if @method is 'POST': %>curl_setopt($ch, CURLOPT_POST, TRUE);
-<% end %><% if @method isnt 'GET' and @method isnt 'POST': %>curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "<%= @method %>");
-<% end %><% if @body : %>curl_setopt($ch, CURLOPT_POSTFIELDS, <%= @helpers.escape @body.split('\n').join('') %>);
-<% end %><% if @headers and @helpers.isNotEmpty(@headers): %>curl_setopt($ch, CURLOPT_HTTPHEADER, array(<% for header, value of @headers: %><% if headerFirst: %><% headerFirst = false %><% else: %>, <% end %><%= @helpers.escape "#{header}: #{value}" %><% end %>));
+<% end %>
+<% if @method isnt 'GET' and @method isnt 'POST': %>curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "<%= @method %>");
+<% end %>
+<% if @method isnt 'GET' and (@contentType is "text/html" or @contentType is "text/plain"):  %>
+$fields = <%= eos %><%= "#{line}\n" for line in @body %>EOT;
+curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+<% else if @body and @body.length > 0: %>curl_setopt($ch, CURLOPT_POSTFIELDS, <%= @helpers.escape @body.join('') %>);
+
+<% end %>
+<% if @headers and @helpers.isNotEmpty(@headers): %>curl_setopt($ch, CURLOPT_HTTPHEADER, array(<% for header, value of @headers: %><% if headerFirst: %><% headerFirst = false %><% else: %>, <% end %><%= @helpers.escape "#{header}: #{value}" %><% end %>));
 <% end %>$response = curl_exec($ch);
 curl_close($ch);
 
