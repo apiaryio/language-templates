@@ -1,34 +1,32 @@
 <section name="javascript" class="javascript">
-  <p class="ioDesc">In</p>
-  <pre class="incoming brush:javascript">
-    var xhr = new XMLHttpRequest();
-    xhr.open('<%= @method.toUpperCase() %>', '<%= @apiUrl %><%= @url %>');
-    <% for header, value of @headers: %>
-    xhr.setRequestHeader(<%= @helpers.escape header %>, <%= @helpers.escape value %>);
-    <% end %>
-    xhr.onreadystatechange = function () {
-      if (this.readyState == 4) {
-        alert('Status: '+this.status+'\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'\nBody: '+this.responseText);
-      }
-    };
-    xhr.send(<%= @helpers.escape @body.join("\n") %>);
-  </pre>
-  <pre class="jsRunCode" style="display: none">
-    var xhr = new XMLHttpRequest();
-    xhr.open('<%= @method.toUpperCase() %>', '<%= @apiUrl %><%= @url %>');
-    <% for header, value of @headers: %>
-    xhr.setRequestHeader(<%= @helpers.escape header %>, <%= @helpers.escape value %>);
-    <% end %>
-    xhr.onreadystatechange = function () {
-      if (this.readyState == 4) {
-        if (typeof cb !== "undefined") {
-          cb(this);
-        }
-        else {
-          alert('Status: '+this.status+'\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'\nBody: '+this.responseText);
-        }
-      }
-    };
-    xhr.send(<%= @helpers.escape @body.join("\n") %>);
-  </pre>
+<p class="ioDesc">In</p>
+<pre class="incoming"><code class="language-javascript">var xhr = new XMLHttpRequest();
+xhr.open("<%= @method.toUpperCase() %>", "<%= @apiUrl %><%= @url %>");
+<% for header, value of @headers: %>
+xhr.setRequestHeader(<%= @helpers.escape header %>, <%= @helpers.escape value %>);
+<% end %>
+xhr.onreadystatechange = function () {
+  if (this.readyState == 4) {
+    alert('Status: '+this.status+'\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'\nBody: '+this.responseText);
+  }
+};
+xhr.send(<%= @helpers.escape @body.join("\n") %>);</code></pre>
+<pre class="jsRunCode" style="display: none">
+var xhr = new XMLHttpRequest();
+xhr.open('<%= @method.toUpperCase() %>', '<%= @apiUrl %><%= @url %>');
+<% for header, value of @headers: %>
+xhr.setRequestHeader(<%= @helpers.escape header %>, <%= @helpers.escape value %>);
+<% end %>
+xhr.onreadystatechange = function () {
+  if (this.readyState == 4) {
+    if (typeof cb !== "undefined") {
+      cb(this);
+    }
+    else {
+      alert('Status: '+this.status+'\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'\nBody: '+this.responseText);
+    }
+  }
+};
+xhr.send(<%= @helpers.escape @body.join("\n") %>);
+</pre>
 </section>

@@ -1,7 +1,6 @@
 <section name="nodejs" class="nodejs">
   <p class="ioDesc">In</p>
-  <pre class="incoming brush:js">
-var request = require("request");
+  <pre class="incoming"><code class="language-javascript">var request = require("request");
 <% if @method is "GET" and not @headers: %>
 request("<%= @apiUrl %><%= @url %>", function (error, response, body) {
 <% else : %>
@@ -15,6 +14,5 @@ request({
   console.log("Status", response.statusCode);
   console.log("Headers", JSON.stringify(response.headers));
   console.log("Reponse received", body);
-});
-  </pre>
+});</code></pre>
 </section>
