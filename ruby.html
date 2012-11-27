@@ -1,5 +1,5 @@
 <section name="ruby" class="ruby">
-  <p class="ioDesc">In</p>
+  <p class="ioDesc">Request</p>
   <pre class="incoming"><code class="language-ruby">require 'rubygems'
 require 'rest_client'
 <% if @body and @contentType is "application/x-www-form-urlencoded": %>values   = CGI::escape(<%= @helpers.escape @body.join('') %>)

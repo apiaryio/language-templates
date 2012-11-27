@@ -1,5 +1,5 @@
 <section name="nodejs" class="nodejs">
-  <p class="ioDesc">In</p>
+  <p class="ioDesc">Request</p>
   <pre class="incoming"><code class="language-javascript">var request = require("request");
 <% if @method is "GET" and not @headers: %>
 request("<%= @apiUrl %><%= @url %>", function (error, response, body) {

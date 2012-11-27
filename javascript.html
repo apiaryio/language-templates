@@ -1,5 +1,5 @@
 <section name="javascript" class="javascript">
-<p class="ioDesc">In</p>
+<p class="ioDesc">Request</p>
 <pre class="incoming"><code class="language-javascript">var xhr = new XMLHttpRequest();
 xhr.open("<%= @method.toUpperCase() %>", "<%= @apiUrl %><%= @url %>");
 <% for header, value of @headers: %>

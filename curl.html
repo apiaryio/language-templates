@@ -1,5 +1,5 @@
 <section name="curl" class="curl">
-  <p class="ioDesc">In</p>
+  <p class="ioDesc">Request</p>
   <pre class="incoming"><code class="language-bash">curl --include<% if @headers: %><% for header,value of @headers: %> --header <%= @helpers.escape "#{header}: #{value}" %><% end %> \
     <% end %><% if @method isnt 'GET' or @body: %> --request <%= @method %> \
     <% end %><%if @method isnt 'GET' and (@contentType is "text/html" or @contentType is "text/plain"):  %> --data "<%= ((@helpers.escape line)[1..-2] + "\n" for line in @body).join('')[0..-2] %>" \
