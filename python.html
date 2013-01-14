@@ -4,10 +4,10 @@
 <% if      @contentType is "application/json":                  %>from json import dumps
 <% else if @contentType is "application/x-www-form-urlencoded": %>from urllib import urlencode
 <% end %>
-<% if @contentType is "application/x-www-form-urlencoded": %>values  = urlencode(<%= @body.join('') %>)
-<% else if @contentType is "application/json":             %>values  = dumps(<%= @body.join('') %>)
-<% else if @method isnt 'GET' and (@contentType is "text/html" or @contentType is "text/plain"):  %>values  = <%= @helpers.escape @body.join("\n") %>
-<% else if @method isnt 'GET':                             %>values  = <%= @helpers.escape @body.join('') %>
+<% if @contentType is "application/x-www-form-urlencoded": %>values  = urlencode(<%= @body %>)
+<% else if @contentType is "application/json":             %>values  = dumps(<%= @body %>)
+<% else if @method isnt 'GET' and (@contentType is "text/html" or @contentType is "text/plain"):  %>values  = <%= @helpers.escape @body %>
+<% else if @method isnt 'GET':                             %>values  = <%= @helpers.escape @body %>
 <% end %><% if @helpers.isNotEmpty @headers: %>headers = {<%= ("#{@helpers.escape header}: #{@helpers.escape value}" for header,value of @headers).join(", ") %>}
 <% end %>request = Request("<%= @apiUrl %><%= @url %>"<% if @method in ['POST', 'PUT'] : %>, data=values<% end %><% if @helpers.isNotEmpty @headers: %>, headers=headers<% end %>)
 <% if @method not in ['GET', 'POST'] : %>request.get_method = lambda: '<%= @method %>'

@@ -6,7 +6,7 @@ request("<%= @apiUrl %><%= @url %>", function (error, response, body) {
 <% else : %>
 request({
   url: "<%= @apiUrl %><%= @url %>",<% if @body: %>
-  body: <%= @helpers.escape @body.join("\n") %>,<% end %><% if @helpers.isNotEmpty @headers: %>
+  body: <%= @helpers.escape @body %>,<% end %><% if @helpers.isNotEmpty @headers: %>
   headers: {<%= ("#{@helpers.escape header}: #{@helpers.escape value}" for header,value of @headers).join(", ") %>}, <% end %>
   method: "<%= @method.toUpperCase() %>"
 }, function (error, response, body) {
