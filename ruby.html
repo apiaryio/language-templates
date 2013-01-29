@@ -2,11 +2,20 @@
   <p class="ioDesc">Request</p>
   <pre class="incoming"><code class="language-ruby">require 'rubygems'
 require 'rest_client'
-<% if @body and @contentType is "application/x-www-form-urlencoded": %>values   = CGI::escape(<%= @helpers.escape @body %>)
-<% else if @body and @contentType is "application/json":             %>values   = <%= @helpers.escape @body %>
-<% else if @method isnt 'GET' and (@contentType is "text/html" or @contentType is "text/plain"):  %>values  = <%= @helpers.escape @body %>
-<% else if @body and @body:                                                    %>values   = <%= @helpers.escape @body %>
-<% end %><% if @helpers.isNotEmpty @headers: %>headers  = {<%= [':'+@helpers.rubyKey header+' => '+@helpers.escape value for header,value of @headers] %>}
-<% end %>response = RestClient.<%= @method.toLowerCase() %> "<%= @apiUrl %><%= @url %>"<% if @body: %>, values<% end %><% if @helpers.isNotEmpty @headers: %>, headers<% end %>
+<% if @body and @contentType is "application/x-www-form-urlencoded": %>
+values   = CGI::escape(<%= @helpers.escape @body %>)
+<% else if @body and @contentType is "application/json": %>
+values   = <%= @helpers.escape @body %>
+<% else if @method isnt 'GET' and (@contentType is "text/html" or @contentType is "text/plain"): %>
+values  = <%= @helpers.escape @body %>
+<% else if @body and @body: %>
+values   = <%= @helpers.escape @body %>
+<% end %>
+<% if @helpers.isNotEmpty @headers: %>
+headers  = {<%= [':'+@helpers.rubyKey header+' => '+@helpers.escape value for header,value of @headers] %>}
+<% end %>
+
+response = RestClient.<%= @method.toLowerCase() %> "<%= @apiUrl %><%= @url %>"<% if @body: %>, values<% end %><% if @helpers.isNotEmpty @headers: %>, headers<% end %>
+
 puts response</code></pre>
 </section>
