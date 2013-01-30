@@ -13,7 +13,7 @@ curl_setopt($ch, CURLOPT_POST, TRUE);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "<%= @method %>");
 <% end %>
 <% if @method isnt 'GET' and (@contentType is "text/html" or @contentType is "text/plain"):  %>
-$fields = <%= eos %><%= "#{line}\n" for line in @body %>EOT;
+$fields = <%= eos %><%= "#{line}\n" for line in @body.split('\n') %>EOT;
 curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
 <% else if @body and @body.length > 0: %>
 curl_setopt($ch, CURLOPT_POSTFIELDS, <%= @helpers.escape @body %>);
