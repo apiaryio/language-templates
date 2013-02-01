@@ -1,5 +1,8 @@
 <section name="raw" class="raw">
   <p class="ioDesc">Request</p>
-  <pre class="incoming"><code><%= "#{header}: #{value}\n" for header, value of @headers %></code></pre>
+  <pre class="incoming"><code><% for header, value of @headers: %>
+<%= header %>: <%= value %>
+
+<% end %></code></pre>
   <pre class="incoming"><code class="<%= @helpers.getContentTypeBrush @headers %>"><%= @body %></code></pre>
 </section>
