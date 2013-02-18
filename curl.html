@@ -2,6 +2,6 @@
   <p class="ioDesc">Request</p>
   <pre class="incoming"><code class="language-bash">curl --include<% if @headers: %><% for header,value of @headers: %> --header <%= @helpers.escape "#{header}: #{value}" %><% end %> \
     <% end %><% if @method isnt 'GET' or @body: %> --request <%= @method %> \
-    <% else  if @body: %> --data-binary "<%= @body.replace(/(['"])/g, "\\$1") %>" \
+    <% end %><% if @body: %> --data-binary "<%= @body.replace(/(['"])/g, "\\$1") %>" \
     <% end %>"<%= @apiUrl %><%= @url %>"</code></pre>
 </section>
