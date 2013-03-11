@@ -1,26 +1,31 @@
 <section name="python" class="python">
   <p class="ioDesc">Request</p>
-  <pre class="incoming"><code class="language-python">from urllib2 import Request, urlopen
+  <pre class="incoming"><code class="language-python">import requests
 <% if @contentType is "application/json": %>
-from json import dumps
+import json
 <% else if @contentType is "application/x-www-form-urlencoded": %>
 from urllib import urlencode
 <% end %>
 <% if @contentType is "application/x-www-form-urlencoded" and @body: %>
 values = urlencode(<%= @body %>)
 <% else if @contentType is "application/json" and @body: %>
-values = dumps(<%= @body %>)
+values = json.dumps(<%= @body %>)
 <% else if @method isnt 'GET' and @body: %>
 values = <%= @helpers.escape @body %>
-
 <% end %>
+
 <% if @helpers.isNotEmpty @headers: %>
 headers = {<%= ("#{@helpers.escape header}: #{@helpers.escape value}" for header,value of @headers).join(", ") %>}
 <% end %>
-request = Request("<%= @apiUrl %><%= @url %>"<% if @method isnt 'GET' and @body : %>, data=values<% end %><% if @helpers.isNotEmpty @headers: %>, headers=headers<% end %>)
-<% if @method not in ['GET', 'POST'] : %>
-request.get_method = lambda: '<%= @method %>'
+
+<% if @method is 'GET': %>
+requests.get("<%= @apiUrl %><%= @url %>"<% if @helpers.isNotEmpty @headers: %>, headers=headers<% end %>)
+<% else if @method is 'POST': %>
+requests.post("<%= @apiUrl %><%= @url %>", data=values<% if @helpers.isNotEmpty @headers: %>, headers=headers<% end %>)
+<% else if @method is 'PUT': %>
+requests.put("<%= @apiUrl %><%= @url %>", data=values<% if @helpers.isNotEmpty @headers: %>, headers=headers<% end %>)
+<% else if @method is 'DELETE': %>
+requests.delete("<%= @apiUrl %><%= @url %>"<% if @helpers.isNotEmpty @headers: %>, headers=headers<% end %>)
 <% end %>
-response_body = urlopen(request).read()
-print response_body</code></pre>
+print response.content</code></pre>
 </section>
