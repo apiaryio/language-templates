@@ -9,6 +9,9 @@ curl_setopt($ch, CURLOPT_HEADER, FALSE);
 <% if @method is 'POST': %>
 curl_setopt($ch, CURLOPT_POST, TRUE);
 <% end %>
+<% if @method is 'HEAD': %>
+curl_setopt($ch, CURLOPT_NOBODY, TRUE);
+<% end %>
 <% if @method isnt 'GET' and @method isnt 'POST': %>
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "<%= @method %>");
 <% end %>
