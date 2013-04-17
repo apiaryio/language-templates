@@ -4,5 +4,5 @@
     <% end %><% if @method is 'HEAD' : %> -I \
     <% else if @method isnt 'GET' or @body: %> --request <%= @method %> \
     <% end %><% if @body: %> --data-binary "<%= @body.replace(/(['"])/g, "\\$1") %>" \
-    <% end %>"<%= @apiUrl %><%= @url %>"</code></pre>
+    <% end %> "<%= @apiUrl %><%= @url %>"</code></pre>
 </section>
