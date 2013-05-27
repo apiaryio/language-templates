@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="encoding" content="utf-8" />
+  <title>Language Templates Playground - apiary.io</title>
+  <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+  <script src="assets/coffee-script.js"></script>
+  <script src="assets/beautify-html.js"></script>
+  <script src="assets/ect.js"></script>
+</head>
+<body>
+
+<h1>Language Templates Playground</h1>
+<h2>From developers to developers with love, your API.</h2>
+<nav>
+  <ul>
+    <li><a href="#languages">Languages already implemented</a></li>
+    <li><a href="#explained">Inputs &amp; helpers explained</a></li>
+    <li><a href="#playground">Interactive playground</a></li>
+  </ul>
+</nav>
+
+<div id="languages">
+
+</div>
+
+<div id="explained">
+
+</div>
+
+<div id="playground">
+<div>
+<textarea name="templateText" class="templateText" id="templateText" cols="30" rows="10"><section>
+<code>
+<% for arKey, ar of @ar: %>
+  <%= "#{arKey}, #{ar}" %>
+<% end %>
+</code>
+</section></textarea>
+</div>
+
+<div>
+  <textarea name="resultArea" class="resultArea" id="resultArea" cols="30" rows="10"></textarea>
+</div>
+
+<div id="error-templates"></div>
+
+<button class="renderIt">Render it</button>
+
+</div>
+
+<script>
+$(function () {
+
+// root dict. reference
+var root = {};
+// data dict. reference used in rendering
+var data = {
+  helpers: {
+    'cool': 'red'
+  },
+  "ar": [
+    'one', 'two', 'three', 'four', 'five', 'six'
+  ]
+};
+
+// ECT renderer
+var renderer = ECT({
+  cache: false,
+  root: root
+});
+
+// function making all the magic
+var render = function () {
+  try {
+    var html = renderer.render('template', data);
+    $('#error-templates').empty();
+    $('#error-templates').hide();
+    // html = style_html(html);
+    $resultArea.html(html)
+  } catch (err) {
+      $('#error-templates').html(err.message);
+      $('#error-templates').show();
+  }
+};
+
+// on textarea change, update template text
+var $templateText = $('.templateText').bind('change', function (e) {
+  root['template'] = this.value;
+});
+
+// on button click, make the render happen
+var $renderButton = $('.renderIt').bind('click', function (e) {
+  e.preventDefault();
+  // update the template at last
+  root['template'] = $templateText.val();
+  render();
+});
+
+var $resultArea = $('.resultArea');
+
+root['template'] = $templateText.val();
+
+});
+
+</script>
+
+</body>
+</html>
