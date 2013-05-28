@@ -1,0 +1,351 @@
+html {
+  background-color: #f9f9f9;
+  color: #444;
+}
+
+body {
+  font: 0.75em/1.5 sans-serif;
+  max-width: 1200px;
+  margin: 18px auto;
+  padding: 4em 18px 0;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.9);
+  font-size: 125%;
+  border-bottom: 1px solid #ddd;
+  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+          box-shadow: 0 0 10px 0 rgba(0, 0, 0, .1);
+}
+
+nav ul {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+nav a {
+  display: block;
+  padding: 1em;
+  text-align: center;
+}
+
+.hero {
+  text-align: center;
+  padding: 2em 0 0;
+}
+.hero h2 {
+  font-size: 1.333em;
+  margin: 0;
+  padding: 0.5em 0 0;
+  color: #666;
+  font-style: italic;
+}
+.hero p {
+  position: relative;
+  z-index: 8;
+  margin: 0;
+  color: #999;
+  padding-left: 30em;
+}
+
+h1 {
+  font-size: 5em;
+  text-align: center;
+  margin: 0;
+  line-height: 1;
+  color: #444;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.25);
+}
+
+@media screen and (max-width: 700px) {
+  h1 {
+    font-size: 3em;
+  }
+}
+
+p {
+  margin: 0;
+  margin-bottom: 18px;
+}
+
+a {
+  color: red;
+  font-weight: bold;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+a:visited {
+  color: red;
+}
+
+.editorWrap {
+  position: relative;
+  width: 48%;
+  display: inline-block;
+}
+
+.editorWrap h2 {
+  text-align: center;
+}
+
+.editorArea {
+  width: 100%;
+  display: block;
+  height: 250px;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  border: 3px double red;
+}
+
+.editorWrap:nth-of-type(2n) {
+  float: right;
+}
+
+.resultArea {
+  overflow: hidden;
+  padding: 10px;
+  position: relative;
+  background-color: #FFF;
+}
+
+.resultArea pre {
+  overflow: auto;
+}
+
+#playground {
+  max-height: 1px;
+  margin-top: -4em;
+  padding-top: 4em;
+  overflow: hidden;
+  position: relative;
+  -webkit-transition: 1s all;
+     -moz-transition: 1s all;
+      -ms-transition: 1s all;
+       -o-transition: 1s all;
+          transition: 1s all;
+}
+
+#playground.loaded {
+  max-height: 999px;
+}
+
+#playground .ioDesc {
+  background-color: #aaa;
+  color: #fff;
+  display: inline-block;
+  margin: 0;
+  padding: 2px 7px;
+  -webkit-border-radius: 4px;
+          border-radius: 4px;
+}
+
+#playground section[name]:after {
+  content: attr(name);
+  position: absolute;
+  font-size: 125%;
+  color: rgba(0,0,0,.3);
+  font-weight: bold;
+  top: 10px;
+  line-height: 100%;
+  right: 10px;
+}
+
+#playground.loaded:after {
+  content: ' ';
+  border-color: transparent transparent transparent red;
+  height: 0;
+  width: 0;
+  line-height: 0.01;
+  font-size: 0.01;
+  overflow: hidden;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -40px 0 0 -20px;
+  border-style: solid;
+  border-width: 20px 40px;
+}
+
+.renderBtn {
+  margin: 0 auto;
+  text-align: center;
+  padding: 2em;
+}
+
+.renderIt {
+  font-size: 2em;
+  background-color: red;
+  color: #fff;
+  border: 0;
+  position: relative;
+  font-weight: bold;
+  padding: 0.3em 1em;
+  -webkit-box-shadow: 0 0 20px 1px red;
+          box-shadow: 0 0 20px 1px red;
+  -webkit-border-radius: 10px;
+          border-radius: 10px;
+}
+
+.renderIt:hover {
+  background-color: #fff;
+  color: red;
+}
+
+#languages {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 0 5em;
+}
+
+#languages > h2 {
+  text-align: center;
+  padding: 1em 0;
+  margin: 0;
+  font-size: 200%;
+  background: #fff;
+  border-top: 5px solid red;
+}
+
+#languages ul {
+
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+
+  display: -ms-flexbox;
+  -ms-box-orient: horizontal;
+
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+
+}
+
+#languages li {
+  color: #999;
+  position: relative;
+  width: 100px;
+  padding: 0 0 0.5em 0;
+  background: #fff;
+  margin: 0;
+
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+
+  border-right: 1px dashed red;
+
+  -webkit-transition: all .3s linear;
+     -moz-transition: all .3s linear;
+      -ms-transition: all .3s linear;
+       -o-transition: all .3s linear;
+          transition: all .3s linear;
+
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+
+  -webkit-flex: 1 0;
+  -moz-flex: 1 0;
+  -ms-flex: 1 0;
+  flex: 1 0;
+
+}
+
+.useInEditor {
+  position: absolute;
+  top: 4em;
+  right: 0;
+  left: 1.5em;
+  color: red;
+  opacity: 1;
+  cursor: pointer;
+  -webkit-transition: all .3s linear;
+     -moz-transition: all .3s linear;
+      -ms-transition: all .3s linear;
+       -o-transition: all .3s linear;
+          transition: all .3s linear;
+}
+.useInEditor:hover {
+  text-decoration: underline;
+}
+
+.useInEditor:after {
+  content: 'Use In Editor above';
+  display: block;
+}
+
+#languages li:last-of-type {
+  border-right: none;
+}
+
+#languages li:hover {
+  -webkit-flex: 1 960px;
+  -moz-flex: 1 960px;
+  -ms-flex: 1 960px;
+  flex: 1 960px;
+  width: 960px;
+  color: rgba(0,0,0,1);
+}
+
+#languages li:hover .useInEditor {
+  opacity: 1;
+}
+
+#languages h3 {
+  padding: 1em;
+  margin: 0;
+  font-size: 170%;
+  height: 30px;
+  color: red;
+  display: inline-block;
+
+  -webkit-transition: all .3s linear;
+     -moz-transition: all .3s linear;
+      -ms-transition: all .3s linear;
+       -o-transition: all .3s linear;
+          transition: all .3s linear;
+  -webkit-transform-origin: 1em 50%;
+     -moz-transform-origin: 1em 50%;
+      -ms-transform-origin: 1em 50%;
+       -o-transform-origin: 1em 50%;
+          transform-origin: 1em 50%;
+}
+
+#languages ul:hover li:not(:hover) h3 {
+  -webkit-transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(0.5em);
+     -moz-transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(0.5em);
+      -ms-transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(0.5em);
+       -o-transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(0.5em);
+          transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(0.5em);
+}
+#languages ul:hover li:not(:hover) .useInEditor {
+  opacity: 0;
+}
+
+#languages .codeInside pre {
+  white-space: pre;
+  overflow: hidden;
+  margin: 1em;
+}
+
+#languages li:hover .codeInside pre {
+  overflow: auto;
+}
+
+.codeInside .ioDesc {
+  display: none;
+}

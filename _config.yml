@@ -1,0 +1,9 @@
+auto:        true
+safe:        true
+
+source:      .
+destination: ./_site
+include:    ['curl.html', 'javascript.html', 'nodejs.html', 'php.html', 'python.html', 'raw.html', 'ruby.html']
+
+baseurl:    /
+port:       4000

@@ -1,109 +1,90 @@
+---
+layout: false
+title: Language Templates Playground - apiary.io
+---
 <!doctype html>
 <html>
 <head>
   <meta name="encoding" content="utf-8" />
   <title>Language Templates Playground - apiary.io</title>
+  <link rel="stylesheet" href="assets/normalize.css" />
+  <link rel="stylesheet" href="assets/grids-demo.css" />
+  <link rel="stylesheet" href="assets/prism.css" />
+  <link rel="stylesheet" href="assets/style.css" />
   <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
   <script src="assets/coffee-script.js"></script>
-  <script src="assets/beautify-html.js"></script>
+  <script src="assets/helpers.js"></script>
   <script src="assets/ect.js"></script>
+  <script src="assets/ace/ace.js"></script>
+  <script src="assets/ace/theme-tomorrow.js"></script>
+  <script src="assets/ace/mode-javascript.js"></script>
+  <script src="assets/ace/mode-html.js"></script>
+  <script src="assets/prism.js" data-manual></script>
+  <script src="assets/main.js"></script>
 </head>
 <body>
 
-<h1>Language Templates Playground</h1>
-<h2>From developers to developers with love, your API.</h2>
+<div class="hero">
+  <h1>Language Templates Playground</h1>
+  <h2>&bdquo;From developers to developers with love.&ldquo;</h2>
+  <p>Team <a href="http://apiary.io">Apiary.io</a></p>
+</div>
+
 <nav>
-  <ul>
-    <li><a href="#languages">Languages already implemented</a></li>
-    <li><a href="#explained">Inputs &amp; helpers explained</a></li>
-    <li><a href="#playground">Interactive playground</a></li>
+  <ul class="grid__full">
+    <li class="grid__item one-half"><a href="#playground">Interactive playground</a></li><!--
+ --><li class="grid__item one-half"><a href="#languages">Languages already implemented</a></li><!--
+ --><!-- <li class="grid__item one-third"><a href="#explained">Inputs &amp; helpers explained</a></li> -->
   </ul>
 </nav>
 
-<div id="languages">
+<section id="playground">
 
+  <div class="editorWrap"><h2>Template with CoffeeScript (<a href="https://github.com/baryshev/ect">ECTjs</a>) syntax</h2><div id="templateText" class="templateText editorArea">&lt;section&gt;
+&lt;code&gt;
+&lt;% for arKey, ar of @ar: %&gt;
+  &lt;%= "#{arKey}, #{ar}" %&gt;
+&lt;% end %&gt;
+&lt;/code&gt;
+&lt;/section&gt;</div></div><!--
+--><div class="editorWrap"><h2>&bdquo;Render&ldquo; results after inputs &amp; helpers</h2><div class="resultArea editorArea" id="resultArea"></div></div>
+
+<div id="error-templates"></div>
+
+<div class="renderBtn">
+  <button class="renderIt">Render it</button>
 </div>
+
+</section>
+
+<section id="languages">
+  <h2>Languages Already Implemented</h2>
+  <ul>
+    <li>
+      <h3>cURL</h3>
+      <div class="codeInside" data-src="curl.html"></div>
+    </li><li>
+      <h3>Javascript</h3>
+      <div class="codeInside" data-src="javascript.html"></div>
+    </li><li>
+      <h3>NodeJS</h3>
+      <div class="codeInside" data-src="nodejs.html"></div>
+    </li><li>
+      <h3>PHP</h3>
+      <div class="codeInside" data-src="php.html"></div>
+    </li><li>
+      <h3>Python</h3>
+      <div class="codeInside" data-src="python.html"></div>
+    </li><li>
+      <h3>Ruby</h3>
+      <div class="codeInside" data-src="ruby.html"></div>
+    </li>
+  </ul>
+</section>
 
 <div id="explained">
 
 </div>
-
-<div id="playground">
-<div>
-<textarea name="templateText" class="templateText" id="templateText" cols="30" rows="10"><section>
-<code>
-<% for arKey, ar of @ar: %>
-  <%= "#{arKey}, #{ar}" %>
-<% end %>
-</code>
-</section></textarea>
-</div>
-
-<div>
-  <textarea name="resultArea" class="resultArea" id="resultArea" cols="30" rows="10"></textarea>
-</div>
-
-<div id="error-templates"></div>
-
-<button class="renderIt">Render it</button>
-
-</div>
-
-<script>
-$(function () {
-
-// root dict. reference
-var root = {};
-// data dict. reference used in rendering
-var data = {
-  helpers: {
-    'cool': 'red'
-  },
-  "ar": [
-    'one', 'two', 'three', 'four', 'five', 'six'
-  ]
-};
-
-// ECT renderer
-var renderer = ECT({
-  cache: false,
-  root: root
-});
-
-// function making all the magic
-var render = function () {
-  try {
-    var html = renderer.render('template', data);
-    $('#error-templates').empty();
-    $('#error-templates').hide();
-    // html = style_html(html);
-    $resultArea.html(html)
-  } catch (err) {
-      $('#error-templates').html(err.message);
-      $('#error-templates').show();
-  }
-};
-
-// on textarea change, update template text
-var $templateText = $('.templateText').bind('change', function (e) {
-  root['template'] = this.value;
-});
-
-// on button click, make the render happen
-var $renderButton = $('.renderIt').bind('click', function (e) {
-  e.preventDefault();
-  // update the template at last
-  root['template'] = $templateText.val();
-  render();
-});
-
-var $resultArea = $('.resultArea');
-
-root['template'] = $templateText.val();
-
-});
-
-</script>
 
 </body>
 </html>
