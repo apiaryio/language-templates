@@ -1,25 +1,31 @@
 <section name="csharp" class="csharp">
   <p class="ioDesc">Request</p>
-  <pre class="incoming">
-	<code class="language-csharp">
-		using System.Net;
-		var request = WebRequest.Create("<%= @apiUrl %><%= @url %>") as HttpWebRequest;
-		request.Method = "<%= @method.toUpperCase() %>";
-		request.ContentType = "<%= @contentType %>";
-		<% if @method.toUpperCase() is 'POST' or @method.toUpperCase() is 'PUT' @method.toUpperCase() is 'DELETE' and @helpers.isNotEmpty(@body) %>
-		using (var writer = new StreamWriter(request.GetRequestStream())) {
+  <pre class="incoming"><code class="language-csharp">
+using System.Net;
+var request = WebRequest.Create("<%= @apiUrl %><%= @url %>") as HttpWebRequest;
+request.Method = "<%= @method.toUpperCase() %>";
+<% if @contentType: %>
+request.ContentType = "<%= @contentType %>";
+<% end %>
+<% if @headers: %>
+<% for header, value of @headers: %>request.Headers.Add(<%= @helpers.escape header %>, <%= @helpers.escape value %>);
+<% end %><% end %>
+<% if @helpers.isNotEmpty @body: %>
+		<% if @method.toUpperCase() is 'POST' or @method.toUpperCase() is 'PUT' or @method.toUpperCase() is 'DELETE': %>
+using (var writer = new StreamWriter(request.GetRequestStream())) {
 			byte[] byteArray = Encoding.UTF8.GetBytes(<%= @helpers.escape @body %>);
 			request.ContentLength = byteArray.Length;
 			writer.Write(byteArray);
 			writer.Close();
 		}
 		<% end %>
-		string responseContent;
-		using (var response = request.GetResponse() as HttpWebResponse) {
-			using (var reader = new StreamReader(response.GetResponseStream())) {
-				responseContent = reader.ReadAllText();
-			}
-		}
-	</code>
-  </pre>
-</section>
+	<% else: %>
+	request.ContentLength = 0;
+<% end %>
+string responseContent;
+using (var response = request.GetResponse() as HttpWebResponse) {
+	using (var reader = new StreamReader(response.GetResponseStream())) {
+		responseContent = reader.ReadAllText();
+	}
+}
+</code></pre></section>
