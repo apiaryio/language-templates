@@ -64,26 +64,31 @@ $(function () {
 
   $('.codeInside').each(function (i, el) {
     var $el = $(this);
-    $.get($el.data('src'), function (responseText, status, xhr) {
-      var q;
-      if (status == 'error') {
-      }
-      else {
-        q = responseText.indexOf('<pre class="jsRunCode"');
-        if (q > -1) {
-          q = responseText.substr(0, q);
-          q += responseText.substr(responseText.lastIndexOf('</pre>\n') + '</pre>\n'.length);
-          responseText = q;
+    $.ajax({
+      'url': $el.data('src'),
+      'dataType' :'text',
+      'contentType': 'text/plain;charset=UTF-8',
+      'success': function (responseText, status, xhr) {
+        var q;
+        if (status == 'error') {
         }
-        $el.append($('<pre></pre>').text(responseText.replace(/(<pre class="jsRunCode"(.*)<\/pre>)/mg, ''))).parent().append('<span class="useInEditor"></span>');
+        else {
+          q = responseText.indexOf('<pre class="jsRunCode"');
+          if (q > -1) {
+            q = responseText.substr(0, q);
+            q += responseText.substr(responseText.lastIndexOf('</pre>\n') + '</pre>\n'.length);
+            responseText = q;
+          }
+          $el.append($('<pre></pre>').text(responseText.replace(/(<pre class="jsRunCode"(.*)<\/pre>)/mg, ''))).parent().append('<span class="useInEditor">Use In Editor above</span>');
 
-        if (done === false) {
-          done = true;
-          $('#playground').addClass('loaded');
-          editor.getSession().setValue($el.parent().find('.codeInside').text());
-          render();
+          if (done === false) {
+            done = true;
+            $('#playground').addClass('loaded');
+            editor.getSession().setValue($el.parent().find('.codeInside').text());
+            render();
+          }
+
         }
-
       }
     });
   });
