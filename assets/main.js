@@ -83,7 +83,7 @@ $(function () {
 
           if (done === false) {
             done = true;
-            $('#playground').addClass('loaded');
+            $('#playgroundWrap').addClass('loaded');
             editor.getSession().setValue($el.parent().find('.codeInside').text());
             render();
           }

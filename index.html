@@ -14,14 +14,19 @@ title: Language Templates Playground - apiary.io
   <link charset="utf-8" rel="stylesheet" href="assets/style.css" />
   <script charset="utf-8" src="assets/modernizr.js"></script>
   <script charset="utf-8" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+  <script>
+    if (!window.jQuery) {
+      document.write(unescape('%3Cscript src="assets/jquery-1.8.3.js"%3E%3C/script%3E'));
+    }
+  </script>
+  <script charset="utf-8" src="assets/prism.js" data-manual></script>
   <script charset="utf-8" src="assets/coffee-script.js"></script>
-  <script charset="utf-8" src="assets/helpers.js"></script>
   <script charset="utf-8" src="assets/ect.js"></script>
   <script charset="utf-8" src="assets/ace/ace.js"></script>
   <script charset="utf-8" src="assets/ace/theme-tomorrow.js"></script>
   <script charset="utf-8" src="assets/ace/mode-javascript.js"></script>
   <script charset="utf-8" src="assets/ace/mode-html.js"></script>
-  <script charset="utf-8" src="assets/prism.js" data-manual></script>
+  <script charset="utf-8" src="assets/helpers.js"></script>
   <script charset="utf-8" src="assets/main.js"></script>
 </head>
 <body>
@@ -34,13 +39,14 @@ title: Language Templates Playground - apiary.io
 
 <nav>
   <ul class="grid__full">
-    <li class="grid__item one-half"><a href="#playground">Interactive playground</a></li><!--
- --><li class="grid__item one-half"><a href="#languages">Languages already implemented</a></li><!--
- --><!-- <li class="grid__item one-third"><a href="#explained">Inputs &amp; helpers explained</a></li> -->
+    <li class="grid__item one-third"><a href="#playground">Interactive playground</a></li><!--
+ --><li class="grid__item one-third"><a href="#languages">Languages already implemented</a></li><!--
+ --><li class="grid__item one-third"><a href="#explained">Inputs &amp; helpers explained</a></li>
   </ul>
 </nav>
 
-<section id="playground">
+<section id="playgroundWrap">
+  <a id="playground" class="anchorLink" name="playground"></a>
 
   <div class="editorWrap"><h2>Template with CoffeeScript (<a href="https://github.com/baryshev/ect">ECTjs</a>) syntax</h2><div id="templateText" class="templateText editorArea">&lt;section&gt;
 &lt;code&gt;
@@ -55,11 +61,22 @@ title: Language Templates Playground - apiary.io
 
 <div class="renderBtn">
   <button class="renderIt">Render it</button>
+  <span class="renderLine">using
+    <label>
+      <input type="radio" name="ast" value="post" checked="checked" />
+      POST
+    </label>
+    <label>
+      <input type="radio" name="ast" value="get" />
+      GET
+    </label> example
+  </span>
 </div>
 
 </section>
 
-<section id="languages">
+<section id="languagesWrap">
+  <a id="languages" class="anchorLink" name="languages"></a>
   <h2>Languages Already Implemented</h2>
   <ul>
     <li>
@@ -84,10 +101,38 @@ title: Language Templates Playground - apiary.io
   </ul>
 </section>
 
-<div id="explained">
+<section id="explainedWrap">
+  <a id="explained" class="anchorLink" name="explained"></a>
+  <h2>Interface, helpers &amp; the others&hellip;</h2>
+  <article>
+    <p><a href="https://github.com/apiaryio/language-templates">This repository lists language templates</a> used to power code samples in <a href="http://apiary.io">Apiary</a>'s API Documentations.</p>
+    <p>Please feel free to play around, contribute your own languages or improve the existing ones.</p>
+    <p>The HTML templates are written in <a href="http://ectjs.com">ECT</a>, which places data between <code>&lt;%=</code> (escaped version), <code>%&lt;%-</code> (original) and <code>%&gt;</code> tags and control structures between <code>&lt;%</code> and <code>%&gt;</code>.</p>
+    <p>The following are variables and helper methods you can use when rendering the code of one request example:</p>
+    <ul>
+      <li><strong>@headers</strong> - a key/value Object (hash map) of HTTP headers to be sent</li>
+      <li><strong>@body</strong> - a String containing the HTTP body to be sent</li>
+      <li><strong>@method</strong> - HTTP method used in the request</li>
+      <li><strong>@url</strong> - URL of the request, relative to the root of the server (ideally starts with <strong>'/'</strong>)</li>
+      <li><strong>@apiUrl</strong> - Hostname of the API mock/proxy server (includes protocol (http/https), does not include trailing '/')</li>
+      <li><strong>@contentType</strong> - A shorthand for <code>@headers['content-type']</code> (if applicable)</li>
+      <li>
+        <strong>@helpers</strong> - key/value Object of helpers methods for additional use
+        <ul>
+          <li><strong>@helpers.escape</strong> - escape <code>"</code> (double-quote) characters</li>
+          <li><strong>@helpers.rubyKey</strong> - converts <code>-</code> into <code>_</code> ruby friendly key (eg. morphs <code>Content-Type</code> into <code>content_type</code></li>
+          <li><strong>@helpers.getContentType(headers)</strong> - same as <code>@contentType</code> but in form of a function you can pass any array of headers</li>
+          <li><strong>@helpers.getContentTypeBrush(headers)</strong> - produces a CSS class &amp; enables <strong>syntax-highlighting</strong> (<a href="http://prismjs.com">Prism</a>) for this language</li>
+          <li><strong>@helpers.isNotEmpty(obj)</strong> - same like <code>[].length != 0</code> for Objects (hash maps)</li>
+        </ul>
+      </li>
+    </ul>
+  </article>
+</section>
 
-</div>
-
+<footer class="grid--center">
+  Powered by <code>gh-pages</code> branch in apiaryio/languages-templates repository.
+</footer>
 <div class="github-fork-ribbon-wrapper right"><div class="github-fork-ribbon"><a href="https://github.com/apiaryio/language-templates">Fork me on GitHub</a></div></div>
 
 </body>

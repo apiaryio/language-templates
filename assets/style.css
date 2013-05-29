@@ -11,6 +11,11 @@ body {
 }
 
 nav {
+  -webkit-transform: translate3d(0,0,0);
+     -moz-transform: translate3d(0,0,0);
+      -ms-transform: translate3d(0,0,0);
+       -o-transform: translate3d(0,0,0);
+          transform: translate3d(0,0,0);
   position: fixed;
   top: 0;
   left: 0;
@@ -37,6 +42,8 @@ nav a {
 .hero {
   text-align: center;
   padding: 2em 0 0;
+  postion: relative;
+  z-index: 2;
 }
 .hero h2 {
   font-size: 1.333em;
@@ -120,12 +127,14 @@ a:visited {
   overflow: auto;
 }
 
-#playground {
+#playgroundWrap {
   max-height: 1px;
   margin-top: -4em;
   padding-top: 4em;
   overflow: hidden;
   position: relative;
+  z-index: 2;
+  opacity: 0;
   -webkit-transition: 1s all;
      -moz-transition: 1s all;
       -ms-transition: 1s all;
@@ -133,11 +142,12 @@ a:visited {
           transition: 1s all;
 }
 
-#playground.loaded {
+#playgroundWrap.loaded {
   max-height: 999px;
+  opacity: 1;
 }
 
-#playground .ioDesc {
+#playgroundWrap .ioDesc {
   background-color: #aaa;
   color: #fff;
   display: inline-block;
@@ -147,7 +157,7 @@ a:visited {
           border-radius: 4px;
 }
 
-#playground section[name]:after {
+#playgroundWrap section[name]:after {
   content: attr(name);
   position: absolute;
   font-size: 125%;
@@ -158,9 +168,8 @@ a:visited {
   right: 10px;
 }
 
-#playground.loaded:after {
+#playgroundWrap:after {
   content: ' ';
-  border-color: transparent transparent transparent red;
   height: 0;
   width: 0;
   line-height: 0.01;
@@ -169,19 +178,20 @@ a:visited {
   position: absolute;
   left: 50%;
   top: 50%;
-  margin: -40px 0 0 -20px;
+  margin: -20px 0 0 -20px;
   border-style: solid;
   border-width: 20px 40px;
+  border-color: transparent transparent transparent red;
 }
 
 .renderBtn {
   margin: 0 auto;
   text-align: center;
   padding: 2em;
+  font-size: 2em;
 }
 
 .renderIt {
-  font-size: 2em;
   background-color: red;
   color: #fff;
   border: 0;
@@ -194,19 +204,72 @@ a:visited {
           border-radius: 10px;
 }
 
+.renderBtn input[type="radio"] {
+  vertical-align: middle;
+}
+
+.renderBtn label {
+  background-color: red;
+  color: #fff;
+  padding: 0 0.3em 0 0.5em;
+  margin-right: 0.5em;
+  -webkit-border-radius: 1em;
+          border-radius: 1em;
+}
+
 .renderIt:hover {
   background-color: #fff;
   color: red;
 }
 
-#languages {
+#languagesWrap, #explainedWrap, footer {
   position: relative;
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 0 5em;
+  margin: 0 auto 5em;
+  padding: 0;
+  z-index: 3;
 }
 
-#languages > h2 {
+#explainedWrap {
+  z-index: 2;
+  background-color: #fff;
+  margin-bottom: 3em;
+  padding-bottom: 2em;
+}
+
+#explainedWrap p, #explainedWrap ul {
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+#explainedWrap > article {
+  font-size: 125%;
+}
+
+#explainedWrap:before, footer:before {
+  content: ' ';
+  height: 10px;
+  z-index: 1;
+  left: 20px;
+  right: 20px;
+  top: -5em;
+  margin-top: -11px;
+  -webkit-box-shadow: 0 0 20px 1px rgba(0, 0, 0, .3);
+          box-shadow: 0 0 20px 1px rgba(0, 0, 0, .3);
+  position: absolute;
+  background: rgba(0, 0, 0, .1);
+}
+
+footer {
+  z-index: 1;
+  color: #999;
+  margin-bottom: 3em;
+}
+footer:before {
+  top: -3em;
+}
+
+#languagesWrap > h2, #explainedWrap > h2 {
   text-align: center;
   padding: 1em 0;
   margin: 0;
@@ -215,7 +278,7 @@ a:visited {
   border-top: 5px solid red;
 }
 
-#languages ul {
+#languagesWrap ul {
 
   list-style-type: none;
   padding: 0;
@@ -231,7 +294,7 @@ a:visited {
 
 }
 
-#languages li {
+#languagesWrap li {
   color: #999;
   position: relative;
   width: 100px;
@@ -242,8 +305,6 @@ a:visited {
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
-
-  border-right: 1px dashed red;
 
   -webkit-transition: all .3s linear;
      -moz-transition: all .3s linear;
@@ -258,13 +319,13 @@ a:visited {
 
 }
 
-.flexboxlegacy #languages ul {
+.flexboxlegacy #languagesWrap ul {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
 }
 
-.flexboxlegacy #languages li {
+.flexboxlegacy #languagesWrap li {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
 }
@@ -287,24 +348,21 @@ a:visited {
   text-decoration: underline;
 }
 
-#languages li:last-of-type {
-  border-right: none;
-}
-
-#languages li:hover {
+#languagesWrap li:hover {
   -webkit-flex: 1 960px;
   -moz-flex: 1 960px;
   -ms-flex: 1 960px;
   flex: 1 960px;
   width: 960px;
   color: rgba(0,0,0,1);
+  background-color: #fff;
 }
 
-#languages li:hover .useInEditor {
+#languagesWrap li:hover .useInEditor {
   opacity: 1;
 }
 
-#languages h3 {
+#languagesWrap h3 {
   padding: 1em;
   margin: 0;
   font-size: 170%;
@@ -324,24 +382,25 @@ a:visited {
           transform-origin: 1em 50%;
 }
 
-#languages ul:hover li:not(:hover) h3 {
+#languagesWrap ul:hover li:not(:hover) h3 {
   -webkit-transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(0.5em);
      -moz-transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(0.5em);
       -ms-transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(0.5em);
        -o-transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(0.5em);
           transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(0.5em);
 }
-#languages ul:hover li:not(:hover) .useInEditor {
+
+#languagesWrap ul:hover li:not(:hover) .useInEditor {
   opacity: 0;
 }
 
-#languages .codeInside pre {
+#languagesWrap .codeInside pre {
   white-space: pre;
   overflow: hidden;
-  margin: 1em;
+  margin: 1em 1.5em;
 }
 
-#languages li:hover .codeInside pre {
+#languagesWrap li:hover .codeInside pre {
   overflow: auto;
 }
 
@@ -362,6 +421,7 @@ a:visited {
   -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.5);
           box-shadow: 0 1px 2px 0 rgba(0,0,0,0.5);
   opacity: .7;
+  z-index: 20;
 }
 .github-fork-ribbon:hover {
   opacity: 1;
@@ -385,9 +445,14 @@ a:visited {
   color: #fff;
 }
 .github-fork-ribbon-wrapper {
+  -webkit-transform: translate3d(0,0,0);
+     -moz-transform: translate3d(0,0,0);
+      -ms-transform: translate3d(0,0,0);
+       -o-transform: translate3d(0,0,0);
+          transform: translate3d(0,0,0);
   width: 110px;
   height: 110px;
-  position: absolute;
+  position: fixed;
   overflow: hidden;
   top: 0;
   z-index: 20;
@@ -403,4 +468,10 @@ a:visited {
   -o-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+
+a.anchorLink {
+  position: absolute;
+  top: -4em;
+  left: 0;
 }
