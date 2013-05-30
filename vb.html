@@ -1,0 +1,30 @@
+<section name="vb" class="vb">
+  <p class="ioDesc">Request</p>
+  <pre class="incoming"><code class="language-vb">
+Dim request = TryCast(System.Net.WebRequest.Create("<%= @apiUrl %><%= @url %>"), System.Net.HttpWebRequest)
+request.Method = "<%= @method.toUpperCase() %>"
+<% if @contentType: %>
+request.ContentType = "<%= @contentType %>"
+<% end %>
+<% if @headers: %>
+<% for header, value of @headers: %>request.Headers.Add(<%= @helpers.escape header %>, <%= @helpers.escape value %>)
+<% end %><% end %>
+<% if @helpers.isNotEmpty @body: %>
+		<% if @method.toUpperCase() is 'POST' or @method.toUpperCase() is 'PUT' or @method.toUpperCase() is 'DELETE': %>
+Using writer = New System.IO.StreamWriter(request.GetRequestStream())
+	Dim byteArray As Byte() = System.Text.Encoding.UTF8.GetBytes("<%= @body.replace(/"/g, "'") %>")
+	request.ContentLength = byteArray.Length
+	writer.Write(byteArray)
+	writer.Close()
+End Using
+		<% end %>
+	<% else: %>
+	request.ContentLength = 0
+<% end %>
+Dim responseContent As String
+Using response = TryCast(request.GetResponse(), System.Net.HttpWebResponse)
+	Using reader = New System.IO.StreamReader(response.GetResponseStream())
+		responseContent = reader.ReadToEnd()
+	End Using
+End Using
+</code></pre></section>
