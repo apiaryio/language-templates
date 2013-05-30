@@ -73,6 +73,9 @@ title: Language Templates Playground - apiary.io
       <h3>cURL</h3>
       <div class="codeInside" data-src="curl.html"></div>
     </li><li>
+      <h3>C#</h3>
+      <div class="codeInside" data-src="csharp.html"></div>
+    </li><li>
       <h3>Javascript</h3>
       <div class="codeInside" data-src="javascript.html"></div>
     </li><li>
@@ -97,7 +100,7 @@ title: Language Templates Playground - apiary.io
   <article>
     <p><a href="https://github.com/apiaryio/language-templates">This repository lists language templates</a> used to power code samples in <a href="http://apiary.io">Apiary</a>'s API Documentations.</p>
     <p>Please feel free to play around, contribute your own languages or improve the existing ones.</p>
-    <p>The HTML templates are written in <a href="http://ectjs.com">ECT</a>, which places data between <code>&lt;%=</code> (escaped version), <code>%&lt;%-</code> (original) and <code>%&gt;</code> tags and control structures between <code>&lt;%</code> and <code>%&gt;</code>.</p>
+    <p>The HTML templates are written in <a href="http://ectjs.com">ECT</a>, which places data between <code>&lt;%=</code> (escaped value), <code>&lt;%-</code> (original value) and <code>%&gt;</code> tags, control structures between <code>&lt;%</code> and <code>%&gt;</code>.</p>
     <p>The following are variables and helper methods you can use when rendering the code of one request example:</p>
     <ul>
       <li><strong>@headers</strong> - a key/value Object (hash map) of HTTP headers to be sent</li>
