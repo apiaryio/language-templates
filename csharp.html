@@ -1,30 +1,28 @@
 <section name="csharp" class="csharp">
   <p class="ioDesc">Request</p>
-  <pre class="incoming"><code class="language-csharp">
-var request = System.Net.WebRequest.Create("<%= @apiUrl %><%= @url %>") as System.Net.HttpWebRequest;
-request.Method = "<%= @method.toUpperCase() %>";
+  <pre class="incoming"><code class="language-csharp">var request = System.Net.WebRequest.Create("<%= @apiUrl %><%= @url %>") as System.Net.HttpWebRequest;
+    request.Method = "<%= @method.toUpperCase() %>";
 <% if @contentType: %>
-request.ContentType = "<%= @contentType %>";
+    request.ContentType = "<%= @contentType %>";
 <% end %>
-<% if @headers: %>
-<% for header, value of @headers: %>request.Headers.Add(<%= @helpers.escape header %>, <%= @helpers.escape value %>);
+<% if @headers and @helpers.isNotEmpty @headers: %>
+    <% for header, value of @headers: %>request.Headers.Add(<%= @helpers.escape header %>, <%= @helpers.escape value %>);
 <% end %><% end %>
-<% if @helpers.isNotEmpty @body: %>
-		<% if @method.toUpperCase() is 'POST' or @method.toUpperCase() is 'PUT' or @method.toUpperCase() is 'DELETE': %>
+<% if @body?.length > 0: %>
+<% if @method.toUpperCase() is 'POST' or @method.toUpperCase() is 'PUT' or @method.toUpperCase() is 'DELETE' or @body.length > 0: %>
 using (var writer = new System.IO.StreamWriter(request.GetRequestStream())) {
-			byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(<%= @helpers.escape @body %>);
-			request.ContentLength = byteArray.Length;
-			writer.Write(byteArray);
-			writer.Close();
-		}
-		<% end %>
-	<% else: %>
-	request.ContentLength = 0;
+      byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(<%= @helpers.escape @body %>);
+      request.ContentLength = byteArray.Length;
+      writer.Write(byteArray);
+      writer.Close();
+    }
+<% end %>
+<% else: %>
+    request.ContentLength = 0;
 <% end %>
 string responseContent;
 using (var response = request.GetResponse() as System.Net.HttpWebResponse) {
-	using (var reader = new System.IO.StreamReader(response.GetResponseStream())) {
-		responseContent = reader.ReadToEnd();
-	}
-}
-</code></pre></section>
+  using (var reader = new System.IO.StreamReader(response.GetResponseStream())) {
+    responseContent = reader.ReadToEnd();
+  }
+}</code></pre></section>
