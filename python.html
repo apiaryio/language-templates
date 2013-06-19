@@ -22,5 +22,5 @@ request = Request("<%= @apiUrl %><%= @url %>"<% if @method isnt 'GET' and @body 
 request.get_method = lambda: '<%= @method %>'
 <% end %>
 response_body = urlopen(request).read()
-print response_body</code></pre>
+print(response_body)</code></pre>
 </section>
