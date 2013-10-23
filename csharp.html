@@ -6,8 +6,24 @@
     request.ContentType = "<%= @contentType %>";
 <% end %>
 <% if @headers and @helpers.isNotEmpty @headers: %>
-    <% for header, value of @headers: %>request.Headers.Add(<%= @helpers.escape header %>, <%= @helpers.escape value %>);
-<% end %><% end %>
+    <% for header, value of @headers: %>
+      <% header = header.toLowerCase() %>
+      <% if header is 'accept': %>request.Accept = "<%= @helpers.escape value %>";
+      <% else if header is 'connection': %>request.Connection = "<%= @helpers.escape value %>";
+      <% else if header is 'content-length': %>request.ContentLength = "<%= @helpers.escape value %>";
+      <% else if header is 'expect': %>request.Expect = "<%= @helpers.escape value %>";
+      <% else if header is 'date': %>request.Date = "<%= @helpers.escape value %>";
+      <% else if header is 'host': %>request.Host = "<%= @helpers.escape value %>";
+      <% else if header is 'if-modified-since': %>request.IfModifiedSince = "<%= @helpers.escape value %>";
+      <% else if header is 'range': %>request.AddRange  = "<%= @helpers.escape value %>";
+      <% else if header is 'referer': %>request.Referer = "<%= @helpers.escape value %>";
+      <% else if header is 'transfer-encoding': %>request.TransferEncoding = "<%= @helpers.escape value %>";
+      <% else if header is 'user-agent': %>request.UserAgent = "<%= @helpers.escape value %>";
+      <% else if header is 'connection': %>request.Connection = "<%= @helpers.escape value %>";
+      <% else: %>request.Headers.Add(<%= @helpers.escape header %>, <%= @helpers.escape value %>);
+      <% end %>
+    <% end %>
+<% end %>
 <% if @body?.length > 0: %>
 <% if @method.toUpperCase() is 'POST' or @method.toUpperCase() is 'PUT' or @method.toUpperCase() is 'DELETE' or @body.length > 0: %>
 using (var writer = new System.IO.StreamWriter(request.GetRequestStream())) {
