@@ -1,5 +1,7 @@
 This repository lists language templates used to power code samples in Apiary's API Documentations. Please feel free to contribute your own languages or improve the existing ones.
 
+You can try-out your code at [Language Templates Playground](http://apiaryio.github.io/language-templates).
+
 ## Interface
 
 The HTML templates are written in [ECT](http://ectjs.com/), which places data between `<%=` and `%>` tags and control structures between `<%` and `%>`. The following are variables and helper methods you can use when rendering the code for a request:
