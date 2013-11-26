@@ -13,7 +13,7 @@ values   = <%= @helpers.escape @body %>
 <% end %>
 
 <% if @helpers.isNotEmpty @headers: %>
-headers  = {<%= [':'+@helpers.rubyKey header+' => '+@helpers.escape value for header,value of @headers] %>}
+headers  = {<%= [':'+@helpers.rubyKey(header)+' => '+@helpers.escape value for header,value of @headers] %>}
 <% end %>
 response = RestClient.<%= @method.toLowerCase() %> "<%= @apiUrl %><%= @url %>"<% if @body: %>, values<% end %><% if @helpers.isNotEmpty @headers: %>, headers<% end %>
 
