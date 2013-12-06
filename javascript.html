@@ -10,7 +10,7 @@ xhr.onreadystatechange = function () {
     alert('Status: '+this.status+'\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'\nBody: '+this.responseText);
   }
 };
-xhr.send(<%= @helpers.escape @body %>);</code></pre>
+xhr.send(<%= if @body then @helpers.escape(@body) else 'null' %>);</code></pre>
 <pre class="jsRunCode" style="display: none">
 var xhr = new XMLHttpRequest();
 xhr.open('<%= @method.toUpperCase() %>', '<%= @apiUrl %><%= @url %>');
@@ -27,6 +27,6 @@ xhr.onreadystatechange = function () {
     }
   }
 };
-xhr.send(<%= @helpers.escape @body %>);
+xhr.send(<%= if @body then @helpers.escape(@body) else 'null' %>);
 </pre>
 </section>
