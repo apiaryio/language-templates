@@ -1,10 +1,12 @@
 <section name="curl" class="curl">
-  <p class="ioDesc">Request</p>
+    <p class="ioDesc">Request</p>
   <pre class="incoming"><code class="language-bash">curl --include \
-    <% if @method is 'HEAD' : %> -I \
-    <% else if @method isnt 'GET' or @body: %> --request <%= @method %><% end %> \
-     --url "<%= @apiUrl %><%= @url %>"<% if @headers: %><% for header,value of @headers: %> \
-     --header <%= @helpers.escape "#{header}: #{value}" %><% end %> \
-    <% end %><% if @body: %> --data-binary "<%= @body.replace(/(['"])/g, "\\$1") %>" \
-    <% end %></code></pre>
+      <% if @method is 'HEAD' : %>     -I \
+      <% else if @method isnt 'GET' or @body: %>     --request <%= @method %> \
+      <% end %>
+      <% if @headers: %><% for header,value of @headers: %>
+      --header <%= @helpers.escape "#{header}: #{value}" %> \
+      <% end %>
+      <% end %><% if @body: %>     --data-binary "<%= @body.replace(/(['"])/g, "\\$1") %>" \
+      <% end %> <%= @apiUrl %><%= @url %></code></pre>
 </section>
