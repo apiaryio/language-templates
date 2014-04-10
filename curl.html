@@ -7,6 +7,6 @@
 <% if @headers: %><% for header,value of @headers: %>
      --header <%= @helpers.escape "#{header}: #{value}" %> \
 <% end %>
-<% end %><% if @body: %>     --data-binary "<%= @body.replace(/(['"])/g, "\\$1") %>" \
+<% end %><% if @body: %>     --data-binary '<%= @body.replace(/(')/g, "\\$1") %>' \
     <% end %> <%= @apiUrl %><%= @url %></code></pre>
 </section>
