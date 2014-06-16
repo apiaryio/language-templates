@@ -1,0 +1,37 @@
+<section name="swift" class="swift">
+  <p class="ioDesc">Request</p>
+  <pre class="incoming"><code class="language-swift">
+
+// NOTE: Uncommment following two lines for use in a Playground
+// import XCPlayground
+// XCPSetExecutionShouldContinueIndefinitely()
+
+var url = NSURL(string: "<%= @apiUrl %><%= @url %>")
+var request = NSMutableURLRequest(URL: url)
+
+request.HTTPMethod = "<%= @method.toUpperCase() %>"
+
+<% if @headers and @helpers.isNotEmpty @headers: %>
+<% for header, value of @headers: %>
+request.addValue(<%= @helpers.escape value %>, forHTTPHeaderField: <%= @helpers.escape header %>)
+<% end %>
+<% end %>
+
+<% if @body?.length > 0: %>
+request.HTTPBody = <%= @helpers.escape @body %>.dataUsingEncoding(NSUTF8StringEncoding);
+<% end %>
+
+var session = NSURLSession.sharedSession()
+var task = session.dataTaskWithRequest(request) { (data: NSData!, response: NSURLResponse!, error: NSError!) in
+
+    if (error) {
+        // Handle error...
+        return
+    }
+    
+    println(error)
+    println(response)
+    println(NSString(data: data, encoding: NSUTF8StringEncoding))
+}
+
+task.resume()</code></pre></section>
