@@ -1,8 +1,6 @@
 <section name="swift" class="swift">
   <p class="ioDesc">Request</p>
-  <pre class="incoming"><code class="language-swift">
-
-// NOTE: Uncommment following two lines for use in a Playground
+  <pre class="incoming"><code class="language-swift">// NOTE: Uncommment following two lines for use in a Playground
 // import XCPlayground
 // XCPSetExecutionShouldContinueIndefinitely()
 
@@ -28,7 +26,7 @@ var task = session.dataTaskWithRequest(request) { (data: NSData!, response: NSUR
         // Handle error...
         return
     }
-    
+
     println(error)
     println(response)
     println(NSString(data: data, encoding: NSUTF8StringEncoding))
