@@ -375,6 +375,7 @@ footer:before {
   font-size: 170%;
   height: 30px;
   color: red;
+  white-space: nowrap;
   display: inline-block;
 
   -webkit-transition: all .3s linear;
