@@ -1,45 +1,26 @@
 <section name="groovy" class="groovy">
 <p class="ioDesc">Request</p>
-<pre class="incoming"><code class="language-groovy"><% headerFirst = true %><%= "import groovyx.net.http.RESTClient\n
-import static groovyx.net.http.ContentType.JSON\nimport groovy.json.JsonSlurper\nimport groovy.json.JsonOutput\n\n" %>
-<% eos = "<<<EOT\n" %>
+<pre class="incoming"><code class="language-groovy">import groovyx.net.http.RESTClient
+import static groovyx.net.http.ContentType.JSON
+import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
+
 @Grab (group = 'org.codehaus.groovy.modules.http-builder', module = 'http-builder', version = '0.5.0')
 def client = new RESTClient("<%= @apiUrl %>")
 
-<% if @method is 'HEAD': %>
-response = client.head( path : "<%= @url %>" )
-<% end %>
-<% if @method is 'GET': %>
-response = client.get( path : "<%= @url %>" )
-<% end %>
-<% if @method is 'DELETE': %>
-response = client.delete( path : "<%= @url %>" )
-<% end %>
-<% if @method is 'POST': %>
+<% if @method in ['HEAD', 'GET', 'DELETE'] : %>
+response = client.<%- @method.toLowerCase() %>( path : "<%= @url %>" )
+<% else if @method in ['POST', 'PUT'] : %>
 def jsonObj = new JsonSlurper().parseText('<%= @body %>')
-response = client.post( path : "<%= @url %>",
+response = client.<%- @method.toLowerCase() %>( path : "<%= @url %>",
                         body : jsonObj,
-						<% if @contentType.toLowerCase() is 'application/json': %>
-contentType : JSON )
-						<% else: %>
-contentType : ANY )
-            <% end %>	
-<% end %>
-<% if @method is 'PUT': %>
-def jsonObj = new JsonSlurper().parseText('<%= @body %>')
-response = client.put( path : "<%= @url %>",
-                        body : jsonObj,
-						<% if @contentType.toLowerCase() is 'application/json': %>
-contentType : JSON )
-						<% else: %>
-contentType : ANY )
-            <% end %>	
+                 contentType : <% if @contentType?.toLowerCase() is 'application/json' : %>JSON<% else : %>ANY<% end %> )
 <% end %>
 
 println("Status:" + response.status)
 if (response.data) {
-	println("Content Type: " + response.contentType)
-	println("Body:\n" + JsonOutput.prettyPrint(JsonOutput.toJson(response.data)))
+  println("Content Type: " + response.contentType)
+  println("Body:\n" + JsonOutput.prettyPrint(JsonOutput.toJson(response.data)))
 }
 </code></pre>
 </section>
