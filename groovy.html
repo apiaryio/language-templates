@@ -17,7 +17,7 @@ def client = new RESTClient("<%= @apiUrl %>")
 
 
 <% if @method in ['HEAD', 'GET', 'DELETE'] : %>
-response = client.<%- @method.toLowerCase() %>( path : "<%= @url %>", <% if @headers and @helpers.isNotEmpty @headers: %>, headers: emptyHeaders<% end %> )
+response = client.<%- @method.toLowerCase() %>( path : "<%= @url %>"<% if @headers and @helpers.isNotEmpty @headers: %>, headers: emptyHeaders<% end %>)
 <% else if @method in ['POST', 'PUT'] : %>
 def jsonObj = new JsonSlurper().parseText('<%= @body %>')
 response = client.<%- @method.toLowerCase() %>( path : "<%= @url %>",
