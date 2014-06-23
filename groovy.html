@@ -8,18 +8,30 @@ import groovy.json.JsonOutput
 @Grab (group = 'org.codehaus.groovy.modules.http-builder', module = 'http-builder', version = '0.5.0')
 def client = new RESTClient("<%= @apiUrl %>")
 
+<% if @headers and @helpers.isNotEmpty @headers: %>
+  def emptyHeaders = [:]
+  <% for header, value of @headers: %>
+    emptyHeaders.<%= @helpers.escape header %> = <%= @helpers.escape value %>
+  <% end %>
+<% end %>
+
+
 <% if @method in ['HEAD', 'GET', 'DELETE'] : %>
-response = client.<%- @method.toLowerCase() %>( path : "<%= @url %>" )
+response = client.<%- @method.toLowerCase() %>( path : "<%= @url %>", <% if @headers and @helpers.isNotEmpty @headers: %>, headers: emptyHeaders<% end %> )
 <% else if @method in ['POST', 'PUT'] : %>
 def jsonObj = new JsonSlurper().parseText('<%= @body %>')
 response = client.<%- @method.toLowerCase() %>( path : "<%= @url %>",
                         body : jsonObj,
+                  <% if @headers and @helpers.isNotEmpty @headers: %>
+                        headers: emptyHeaders,
+                  <% end %>
                  contentType : <% if @contentType?.toLowerCase() is 'application/json' : %>JSON<% else : %>ANY<% end %> )
 <% end %>
 
 println("Status:" + response.status)
 if (response.data) {
   println("Content Type: " + response.contentType)
+  println("Headers: " + response.getAllHeaders())
   println("Body:\n" + JsonOutput.prettyPrint(JsonOutput.toJson(response.data)))
 }
 </code></pre>
