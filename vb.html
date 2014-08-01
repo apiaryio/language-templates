@@ -5,10 +5,19 @@ request.Method = "<%= @method.toUpperCase() %>"
 <% if @contentType: %>
 request.ContentType = "<%= @contentType %>"
 <% end %>
-<% if @headers: %>
-<% for header, value of @headers: %>
-request.Headers.Add(<%= @helpers.escape header %>, <%= @helpers.escape value %>)
-<% end %><% end %>
+<% if @headers and @helpers.isNotEmpty @headers: %>
+<% for header, value of @headers: %><% header = header.toLowerCase() %>
+<% if header in ['accept', 'connection', 'date', 'expect', 'host', 'range', 'referer']: %>request.<%- header.charAt(0).toUpperCase() %><%- header.substring(1).toLowerCase() %> = "<%= @helpers.escape value %>"
+<% else if header is 'content-length': %>request.ContentLength = "<%= @helpers.escape value %>"
+<% else if header is 'content-type': %>request.ContentType=<%= @helpers.escape value %>
+<% else if header is 'if-modified-since': %>request.IfModifiedSince = "<%= @helpers.escape value %>"
+<% else if header is 'transfer-encoding': %>request.TransferEncoding = "<%= @helpers.escape value %>"
+<% else if header is 'user-agent': %>request.UserAgent = "<%= @helpers.escape value %>"
+<% else if header is 'proxy-connection': %>request.ProxyConnection = "<%= @helpers.escape value %>"
+<% else: %>request.Headers.Add(<%= @helpers.escape header %>, <%= @helpers.escape value %>)
+<% end %>
+<% end %>
+<% end %>
 <% if @body: %>
 <% if @method.toUpperCase() is 'POST' or @method.toUpperCase() is 'PUT' or @method.toUpperCase() is 'DELETE': %>
 Using writer = New System.IO.StreamWriter(request.GetRequestStream())
