@@ -117,14 +117,17 @@ a:visited {
 }
 
 .resultArea {
-  overflow: hidden;
+  overflow: auto;
   padding: 10px;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
   position: relative;
   background-color: #FFF;
 }
 
 .resultArea pre {
-  overflow: auto;
+  overflow: visible;
 }
 
 #playgroundWrap {
@@ -299,6 +302,7 @@ footer:before {
   display: -moz-flex;
   display: flex;
 
+  background: #fff;
 }
 
 #languagesWrap li {
@@ -306,7 +310,6 @@ footer:before {
   position: relative;
   width: 100px;
   padding: 0 0 0.5em 0;
-  background: #fff;
   margin: 0;
 
   -webkit-box-sizing: border-box;
@@ -324,17 +327,6 @@ footer:before {
   -ms-flex: 1 0;
   flex: 1 0;
 
-}
-
-.flexboxlegacy #languagesWrap ul {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-}
-
-.flexboxlegacy #languagesWrap li {
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
 }
 
 .useInEditor {
@@ -362,7 +354,6 @@ footer:before {
   flex: 1 960px;
   width: 960px;
   color: rgba(0,0,0,1);
-  background-color: #fff;
 }
 
 #languagesWrap li:hover .useInEditor {
