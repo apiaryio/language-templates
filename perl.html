@@ -1,0 +1,25 @@
+<section name="perl" class="perl">
+  <p class="ioDesc">Request</p>
+  <pre class="incoming"><code class="language-perl">require LWP::UserAgent;
+
+my $ua   = LWP::UserAgent->new;
+<% if @body and @contentType is "application/x-www-form-urlencoded": %>
+my $data = <%= @helpers.escape @body %>;
+<% else if @body and @contentType is "application/json": %>
+my $data = <%= @helpers.escape @body %>;
+<% else if @method isnt 'GET' and (@contentType is "text/html" or @contentType is "text/plain"): %>
+my $data   = <%= @helpers.escape(@body or '') %>;
+<% else if @body: %>
+my $data = <%= @helpers.escape @body %>;
+<% end %>
+
+<% if @helpers.isNotEmpty @headers: %>
+<% for header,value of @headers : %>
+$ua->default_header(<%= [@helpers.rubyKey(header)+' => '+@helpers.escape(value)] %>);
+<% end %>
+<% end %>
+
+my $response = $ua-><%= @method.toLowerCase() %>("<%= @apiUrl %><%= @url %>"<% if @body: %>, Content => $data<% end %>);
+
+print $response->as_string;</code></pre>
+</section>
