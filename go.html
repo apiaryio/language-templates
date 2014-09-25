@@ -1,0 +1,41 @@
+<section name="go" class="go">
+  <p class="ioDesc">Request</p>
+  <pre class="incoming"><code class="language-go">package main
+
+import (
+<% if @body : %>
+	"bytes"
+<% end %>
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+func main() {
+	client := &http.Client{}
+<% if @body : %>
+
+	body := []byte(<%= @helpers.escape @body %>)
+<% end %>
+
+	req, _ := http.NewRequest("<%= @method %>", "<%= @apiUrl %><%= @url %>", <% if @body : %>bytes.NewBuffer(body)<% else : %>nil<% end %>)
+<% if @helpers.isNotEmpty @headers: %>
+<% for header, value of @headers : %>
+
+	req.Header.Add(<%= @helpers.escape header %>, <%= @helpers.escape value %>)<% end %>
+
+<% end %>
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		fmt.Println("Errored when sending request to the server")
+		return
+	}
+
+	defer resp.Body.Close()
+	resp_body, _ := ioutil.ReadAll(resp.Body)
+
+	fmt.Println(string(resp_body))
+}</code></pre>
+</section>
