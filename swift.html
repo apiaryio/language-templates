@@ -22,7 +22,7 @@ request.HTTPBody = <%= @helpers.escape @body %>.dataUsingEncoding(NSUTF8StringEn
 var session = NSURLSession.sharedSession()
 var task = session.dataTaskWithRequest(request) { (data: NSData!, response: NSURLResponse!, error: NSError!) in
 
-    if (error) {
+    if error != nil {
         // Handle error...
         return
     }
