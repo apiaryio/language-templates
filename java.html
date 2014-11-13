@@ -1,0 +1,52 @@
+<section name="java" class="java">
+  <p class="ioDesc">Request</p>
+  <pre class="incoming"><code class="language-java">
+// Maven : Add these dependecies to your pom.xml
+// &lt;dependency&gt;" 
+//     &lt;groupId&gt;org.glassfish.jersey.core&lt;/groupId&gt;" 
+//     &lt;artifactId&gt;jersey-client&lt;/artifactId&gt;" 
+//     &lt;version&gt;2.13&lt;/version&gt;" 
+// &lt;/dependency&gt;" 
+// &lt;dependency&gt;" 
+//     &lt;groupId&gt;org.glassfish.jersey.media&lt;/groupId&gt;" 
+//     &lt;artifactId&gt;jersey-media-json-jackson&lt;/artifactId&gt;" 
+//     &lt;version&gt;2.13&lt;/version&gt;" 
+// &lt;/dependency&gt;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.Response;
+
+Client client = ClientBuilder.newClient();
+<% if @body?.length > 0: %>
+<% switch @helpers.getContentType @headers : %>
+<% when 'application/json' : %>
+Entity payload = Entity.json(<%= @helpers.escape @body %>);
+<% end %>
+<% when 'application/xml' : %>
+Entity payload = Entity.xml(<%= @helpers.escape @body %>);
+<% end %>
+<% else : %>
+Entity&lt;String&gt; payload = Entity.text("");
+<% end %>
+<% end %>
+<% end %>
+Response response = client.target("<%= @apiUrl %>")
+  .path("<%= @url %>")
+  .request("<%- @helpers.getContentType @headers %>")
+<% if @headers and @helpers.isNotEmpty @headers: %>
+<% for header, value of @headers: %>
+  .header(<%= @helpers.escape header %>, <%= @helpers.escape value %>)
+<% end %>
+<% end %>
+<% if @method.toUpperCase() is 'POST' or @method.toUpperCase() is 'PUT' or @method.toUpperCase() is 'DELETE' or @body.length > 0: %>
+  .<%- @method.toLowerCase() %>(payload);
+<% else: %>
+  .<%- @method.toLowerCase() %>
+<% end %>
+
+System.out.println("status: " + response.getStatus());
+System.out.println("headers: " + response.getHeaders());
+System.out.println("body:" + response.readEntity(String.class));
+</code></pre></section>
