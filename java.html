@@ -19,16 +19,16 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
 Client client = ClientBuilder.newClient();
-<% if @body?.length > 0: %>
+<% if @method.toUpperCase() is 'POST' or @method.toUpperCase() is 'PUT': %>
 <% switch @helpers.getContentType @headers : %>
 <% when 'application/json' : %>
-Entity payload = Entity.json(<%= @helpers.escape @body %>);
+Entity payload = Entity.json("<%= @body %>");
 <% end %>
 <% when 'application/xml' : %>
-Entity payload = Entity.xml(<%= @helpers.escape @body %>);
+Entity payload = Entity.xml("<%= @body %>");
 <% end %>
 <% else : %>
-Entity&lt;String&gt; payload = Entity.text("");
+Entity&lt;String&gt; payload = Entity.text("<%= @body %>");
 <% end %>
 <% end %>
 <% end %>
@@ -40,10 +40,10 @@ Response response = client.target("<%= @apiUrl %>")
   .header(<%= @helpers.escape header %>, <%= @helpers.escape value %>)
 <% end %>
 <% end %>
-<% if @method.toUpperCase() is 'POST' or @method.toUpperCase() is 'PUT' or @method.toUpperCase() is 'DELETE' or @body.length > 0: %>
+<% if @method.toUpperCase() is 'POST' or @method.toUpperCase() is 'PUT': %>
   .<%- @method.toLowerCase() %>(payload);
 <% else: %>
-  .<%- @method.toLowerCase() %>
+  .<%- @method.toLowerCase() %>();
 <% end %>
 
 System.out.println("status: " + response.getStatus());
