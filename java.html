@@ -21,18 +21,15 @@ import javax.ws.rs.core.Response;
 Client client = ClientBuilder.newClient();
 
 <% if @method.toUpperCase() is 'POST' or @method.toUpperCase() is 'PUT' : %>
-<% if @body?.length == 0: %>
-<% body = "" %>
-<% end %>
 <% switch @helpers.getContentType @headers : %>
 <% when 'application/json' : %>
-Entity payload = Entity.json(<%= if @body then @helpers.escape(@body) else "" %>);
+Entity payload = Entity.json(<%= if @body then @helpers.escape(@body) else '""' %>);
 <% end %>
 <% when 'application/xml' : %>
-Entity payload = Entity.xml(<%= if @body then @helpers.escape(@body) else "" %>);
+Entity payload = Entity.xml(<%= if @body then @helpers.escape(@body) else '""' %>);
 <% end %>
 <% else : %>
-Entity&lt;String&gt; payload = Entity.text(<%= if @body then @helpers.escape(@body) else "" %>);
+Entity&lt;String&gt; payload = Entity.text(<%= if @body then @helpers.escape(@body) else '""' %>);
 <% end %>
 <% end %>
 <% end %>
@@ -41,7 +38,9 @@ Response response = client.target("<%= @apiUrl %>")
   .request("<%- @helpers.getContentType @headers %>")
 <% if @headers and @helpers.isNotEmpty @headers: %>
 <% for header, value of @headers: %>
+<% if header.toLowerCase() != 'content-type' : %>
   .header(<%= @helpers.escape header %>, <%= @helpers.escape value %>)
+<% end %>
 <% end %>
 <% end %>
 <% if @method.toUpperCase() is 'POST' or @method.toUpperCase() is 'PUT': %>
