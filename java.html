@@ -17,6 +17,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.MediaType;
 
 Client client = ClientBuilder.newClient();
 
@@ -35,7 +36,16 @@ Entity&lt;String&gt; payload = Entity.text(<%= if @body then @helpers.escape(@bo
 <% end %>
 Response response = client.target("<%= @apiUrl %>")
   .path("<%= @url %>")
-  .request("<%- @helpers.getContentType @headers %>")
+<% switch @helpers.getContentType @headers : %>
+<% when 'application/json' : %>
+  .request(MediaType.APPLICATION_JSON_TYPE)
+<% end %>
+<% when 'application/xml' : %>
+  .request(MediaType.APPLICATION_XML_TYPE)
+<% end %>
+<% else : %>
+  .request(MediaType.TEXT_PLAIN_TYPE)
+<% end %>
 <% if @headers and @helpers.isNotEmpty @headers: %>
 <% for header, value of @headers: %>
 <% if header.toLowerCase() != 'content-type' : %>
