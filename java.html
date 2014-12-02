@@ -46,6 +46,7 @@ Response response = client.target("<%= @apiUrl %>")
 <% else : %>
   .request(MediaType.TEXT_PLAIN_TYPE)
 <% end %>
+<% end %>
 <% if @headers and @helpers.isNotEmpty @headers: %>
 <% for header, value of @headers: %>
 <% if header.toLowerCase() != 'content-type' : %>
