@@ -4,7 +4,7 @@
 // import XCPlayground
 // XCPSetExecutionShouldContinueIndefinitely()
 
-let url = NSURL(string: "<%= @apiUrl %><%= @url %>")
+let url = NSURL(string: "<%= @apiUrl %><%= @url %>")!
 let request = NSMutableURLRequest(URL: url)
 
 request.HTTPMethod = "<%= @method.toUpperCase() %>"
