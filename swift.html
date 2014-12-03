@@ -4,11 +4,11 @@
 // import XCPlayground
 // XCPSetExecutionShouldContinueIndefinitely()
 
-let url = NSURL(string: "<%= @apiUrl %><%= @url %>")
+let url = NSURL(string: "<%= @apiUrl %><%= @url %>")!
 let request = NSMutableURLRequest(URL: url)
-
+<% if @method isnt 'GET': %>
 request.HTTPMethod = "<%= @method.toUpperCase() %>"
-
+<% end %>
 <% if @headers and @helpers.isNotEmpty @headers: %>
 <% for header, value of @headers: %>
 request.addValue(<%= @helpers.escape value %>, forHTTPHeaderField: <%= @helpers.escape header %>)
