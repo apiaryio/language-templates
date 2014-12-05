@@ -4,11 +4,11 @@
 // import XCPlayground
 // XCPSetExecutionShouldContinueIndefinitely()
 
-var url = NSURL(string: "<%= @apiUrl %><%= @url %>")
-var request = NSMutableURLRequest(URL: url)
-
+let url = NSURL(string: "<%= @apiUrl %><%= @url %>")!
+let request = NSMutableURLRequest(URL: url)
+<% if @method isnt 'GET': %>
 request.HTTPMethod = "<%= @method.toUpperCase() %>"
-
+<% end %>
 <% if @headers and @helpers.isNotEmpty @headers: %>
 <% for header, value of @headers: %>
 request.addValue(<%= @helpers.escape value %>, forHTTPHeaderField: <%= @helpers.escape header %>)
@@ -19,10 +19,10 @@ request.addValue(<%= @helpers.escape value %>, forHTTPHeaderField: <%= @helpers.
 request.HTTPBody = <%= @helpers.escape @body %>.dataUsingEncoding(NSUTF8StringEncoding);
 <% end %>
 
-var session = NSURLSession.sharedSession()
-var task = session.dataTaskWithRequest(request) { (data: NSData!, response: NSURLResponse!, error: NSError!) in
+let session = NSURLSession.sharedSession()
+let task = session.dataTaskWithRequest(request) { (data: NSData!, response: NSURLResponse!, error: NSError!) in
 
-    if (error) {
+    if error != nil {
         // Handle error...
         return
     }
