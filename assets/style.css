@@ -379,14 +379,29 @@ footer:before {
       -ms-transform-origin: 1em 50%;
        -o-transform-origin: 1em 50%;
           transform-origin: 1em 50%;
+
+  -webkit-transform: rotate(-45deg) scale(1) translateX(-1.3em) translateY(0);
+     -moz-transform: rotate(-45deg) scale(1) translateX(-1.3em) translateY(0);
+      -ms-transform: rotate(-45deg) scale(1) translateX(-1.3em) translateY(0);
+       -o-transform: rotate(-45deg) scale(1) translateX(-1.3em) translateY(0);
+          transform: rotate(-45deg) scale(1) translateX(-1.3em) translateY(0);
+
 }
 
 #languagesWrap ul:hover li:not(:hover) h3 {
-  -webkit-transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(0.5em);
-     -moz-transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(0.5em);
-      -ms-transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(0.5em);
-       -o-transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(0.5em);
-          transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(0.5em);
+  -webkit-transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(-0.5em);
+     -moz-transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(-0.5em);
+      -ms-transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(-0.5em);
+       -o-transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(-0.5em);
+          transform: rotate(-90deg) scale(0.75) translateX(-2.5em) translateY(-0.5em);
+}
+
+#languagesWrap ul:hover li:hover h3 {
+  -webkit-transform: rotate(0) scale(1) translateX(0) translateY(0);
+     -moz-transform: rotate(0) scale(1) translateX(0) translateY(0);
+      -ms-transform: rotate(0) scale(1) translateX(0) translateY(0);
+       -o-transform: rotate(0) scale(1) translateX(0) translateY(0);
+          transform: rotate(0) scale(1) translateX(0) translateY(0);
 }
 
 #languagesWrap ul:hover li:not(:hover) .useInEditor {
