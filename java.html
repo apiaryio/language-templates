@@ -1,0 +1,66 @@
+<section name="java" class="java">
+  <p class="ioDesc">Request</p>
+  <pre class="incoming"><code class="language-java">
+// Maven : Add these dependecies to your pom.xml (java6+)
+// &lt;dependency&gt;
+//     &lt;groupId&gt;org.glassfish.jersey.core&lt;/groupId&gt;
+//     &lt;artifactId&gt;jersey-client&lt;/artifactId&gt;
+//     &lt;version&gt;2.8&lt;/version&gt;
+// &lt;/dependency&gt;
+// &lt;dependency&gt;
+//     &lt;groupId&gt;org.glassfish.jersey.media&lt;/groupId&gt;
+//     &lt;artifactId&gt;jersey-media-json-jackson&lt;/artifactId&gt;
+//     &lt;version&gt;2.8&lt;/version&gt;
+// &lt;/dependency&gt;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.MediaType;
+
+Client client = ClientBuilder.newClient();
+
+<% if @method.toUpperCase() is 'POST' or @method.toUpperCase() is 'PUT' : %>
+<% switch @helpers.getContentType @headers : %>
+<% when 'application/json' : %>
+Entity payload = Entity.json(<%= if @body then @helpers.escape(@body) else '""' %>);
+<% end %>
+<% when 'application/xml' : %>
+Entity payload = Entity.xml(<%= if @body then @helpers.escape(@body) else '""' %>);
+<% end %>
+<% else : %>
+Entity&lt;String&gt; payload = Entity.text(<%= if @body then @helpers.escape(@body) else '""' %>);
+<% end %>
+<% end %>
+<% end %>
+Response response = client.target("<%= @apiUrl %>")
+  .path("<%= @url %>")
+<% switch @helpers.getContentType @headers : %>
+<% when 'application/json' : %>
+  .request(MediaType.APPLICATION_JSON_TYPE)
+<% end %>
+<% when 'application/xml' : %>
+  .request(MediaType.APPLICATION_XML_TYPE)
+<% end %>
+<% else : %>
+  .request(MediaType.TEXT_PLAIN_TYPE)
+<% end %>
+<% end %>
+<% if @headers and @helpers.isNotEmpty @headers: %>
+<% for header, value of @headers: %>
+<% if header.toLowerCase() != 'content-type' : %>
+  .header(<%= @helpers.escape header %>, <%= @helpers.escape value %>)
+<% end %>
+<% end %>
+<% end %>
+<% if @method.toUpperCase() is 'POST' or @method.toUpperCase() is 'PUT': %>
+  .<%- @method.toLowerCase() %>(payload);
+<% else: %>
+  .<%- @method.toLowerCase() %>();
+<% end %>
+
+System.out.println("status: " + response.getStatus());
+System.out.println("headers: " + response.getHeaders());
+System.out.println("body:" + response.readEntity(String.class));
+</code></pre></section>

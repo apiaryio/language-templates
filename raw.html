@@ -1,6 +1,7 @@
 <section name="raw" class="raw">
   <p class="ioDesc">Request</p>
-  <pre class="incoming"><code><% for header, value of @headers: %>
+  <pre class="incoming"><code><%= @method.toUpperCase() %> <%= @url %> HTTP/1.1
+<% for header, value of @headers: %>
 <%= header %>: <%= value %>
 
 <% end %></code></pre>
