@@ -531,6 +531,16 @@ if (Prism.languages.markup) {
 	});
 }
 
+Prism.languages.go = Prism.languages.extend('clike', {
+	'keyword': /\b(break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go(to)?|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b/g,
+	'builtin': /\b(bool|byte|complex(64|128)|error|float(32|64)|rune|string|u?int(8|16|32|64|)|uintptr|append|cap|close|complex|copy|delete|imag|len|make|new|panic|print(ln)?|real|recover)\b/g,
+	'boolean': /\b(_|iota|nil|true|false)\b/g,
+	'operator': /([(){}\[\]]|[*\/%^!]=?|\+[=+]?|-[>=-]?|\|[=|]?|>[=>]?|<(<|[=-])?|==?|&(&|=|^=?)?|\.(\.\.)?|[,;]|:=?)/g,
+	'number': /\b(-?(0x[a-f\d]+|(\d+\.?\d*|\.\d+)(e[-+]?\d+)?)i?)\b/ig,
+	'string': /("|'|`)(\\?.|\r|\n)*?\1/g
+});
+
+delete Prism.languages.go['class-name'];
 
 Prism.languages.objc = Prism.languages.extend('clike', {
 	'keyword': /\b(IBAction|IBOutlet|SEL|YES|NO|readwrite|readonly|nonatomic|retain|assign|readonly|getter|setter|nil|NULL|super|self|copy|break|case|catch|class|const|copy|__finally|__exception|__try|const_cast|continue|private|public|protected|__declspec|default|delete|deprecated|dllexport|dllimport|do|dynamic_cast|else|enum|explicit|extern|if|for|friend|goto|inline|mutable|naked|namespace|new|noinline|noreturn|nothrow|register|reinterpret_cast|return|selectany|sizeof|static|static_cast|struct|switch|template|this|thread|throw|true|false|try|typedef|typeid|typename|union|using|uuid|virtual|volatile|whcar_t|while)\b/g,
@@ -741,4 +751,18 @@ Prism.hooks.add('after-highlight', function(env){
 	lineWrapper.innerHTML = lines;
 	el.appendChild(lineWrapper)
 
+});
+
+
+/***********************************************
+		 Begin prism-java.js
+***********************************************/
+
+Prism.languages.java = Prism.languages.extend('clike', {
+	'keyword': /\b(abstract|continue|for|new|switch|assert|default|goto|package|synchronized|boolean|do|if|private|this|break|double|implements|protected|throw|byte|else|import|public|throws|case|enum|instanceof|return|transient|catch|extends|int|short|try|char|final|interface|static|void|class|finally|long|strictfp|volatile|const|float|native|super|while)\b/g,
+	'number': /\b0b[01]+\b|\b0x[\da-f]*\.?[\da-fp\-]+\b|\b\d*\.?\d+[e]?[\d]*[df]\b|\W\d*\.?\d+\b/gi,
+	'operator': {
+		pattern: /(^|[^\.])(?:\+=|\+\+?|-=|--?|!=?|<{1,2}=?|>{1,3}=?|==?|&=|&&?|\|=|\|\|?|\?|\*=?|\/=?|%=?|\^=?|:|~)/gm,
+		lookbehind: true
+	}
 });
