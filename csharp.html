@@ -1,41 +1,41 @@
 <section name="csharp" class="csharp">
   <p class="ioDesc">Request</p>
   <pre class="incoming"><code class="language-csharp">// Common testing requirement. If you are consuming an API in a sandbox/test region, uncomment this line of code ONLY for non production uses.
-    //Common testing requirement. If you are consuming an API in a sandbox/test region, uncomment this line of code ONLY for non production uses.
-    //System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+//Common testing requirement. If you are consuming an API in a sandbox/test region, uncomment this line of code ONLY for non production uses.
+//System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
-    //Be sure to run "Install-Package Microsoft.AspNet.WebApi.Client" from your nuget command line.
-    using System.Net.Http;
+//Be sure to run "Install-Package Microsoft.AspNet.WebApi.Client" from your nuget command line.
+using System.Net.Http;
 
-    var baseAddress = "<%- @protocol + @host %>";
+var baseAddress = "<%- @protocol + @host %>";
 
-    using (var httpClient = new HttpClient{ BaseAddress = new Uri(baseAddress) })
-    {
+using (var httpClient = new HttpClient{ BaseAddress = new Uri(baseAddress) })
+{
 
-      <% if @helpers.hasHeaders(): %>
-      <% for header, value of @headers: %><% header = header.toLowerCase() %>
-      <% if header not in ['content-type', 'content-length']: %>
-      httpClient.DefaultRequestHeaders.TryAddWithoutValidation("<%- header %>", "<%- value %>");
-      <% else if header is 'content-type': %>
-      <% @content_type = value %>
-      <% end %>
-      <% end %>
-      <% end %>
+  <% if @helpers.hasHeaders(): %>
+  <% for header, value of @headers: %><% header = header.toLowerCase() %>
+  <% if header not in ['content-type', 'content-length']: %>
+  httpClient.DefaultRequestHeaders.TryAddWithoutValidation("<%- header %>", "<%- value %>");
+  <% else if header is 'content-type': %>
+  <% @content_type = value %>
+  <% end %>
+  <% end %>
+  <% end %>
 
-      <% if @method in ['GET', 'DELETE']: %>
-      var response = await httpClient.<%- @method.charAt(0).toUpperCase() + @method.substring(1).toLowerCase() %>Async("<%- @uriTemplate %>");
-      <% else if @method in ['POST', 'PUT']: %>
+  <% if @method in ['GET', 'DELETE']: %>
+  var response = await httpClient.<%- @method.charAt(0).toUpperCase() + @method.substring(1).toLowerCase() %>Async("<%- @uriTemplate %>");
+  <% else if @method in ['POST', 'PUT']: %>
 
-      <% if @content_type? : %>
-      var content = new StringContent(<%- @body %>, System.Text.Encoding.Default, "<%- @content_type %>");
-      <% else : %>
-      var content = new StringContent(<%- @body %>);
-      <% end %>
+  <% if @content_type? : %>
+  var content = new StringContent(<%- @body %>, System.Text.Encoding.Default, "<%- @content_type %>");
+  <% else : %>
+  var content = new StringContent(<%- @body %>);
+  <% end %>
 
-      var response = await httpClient.<%- @method.charAt(0).toUpperCase() + @method.substring(1).toLowerCase() %>Async("<%- @uriTemplate %>", content);
-      <% end %>
+  var response = await httpClient.<%- @method.charAt(0).toUpperCase() + @method.substring(1).toLowerCase() %>Async("<%- @uriTemplate %>", content);
+  <% end %>
 
-      string responseData = await response.Content.ReadAsStringAsync();
+  string responseData = await response.Content.ReadAsStringAsync();
 
-    }
-}</code></pre></section>
+}
+</code></pre></section>
