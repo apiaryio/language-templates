@@ -1,39 +1,41 @@
 <section name="csharp" class="csharp">
   <p class="ioDesc">Request</p>
-  <pre class="incoming"><code class="language-csharp">// Common testing requirement. If you are consuming an API in a sandbox/test region, uncomment this line of code ONLY for non production uses.
-// System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+  <pre class="incoming"><code class="language-csharp">
+//Common testing requirement. If you are consuming an API in a sandbox/test region, uncomment this line of code ONLY for non production uses.
+//System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
-var request = System.Net.WebRequest.Create("<%= @apiUrl %><%= @url %>") as System.Net.HttpWebRequest;
-request.KeepAlive = true;
+//Be sure to run "Install-Package Microsoft.AspNet.WebApi.Client" from your nuget command line.
+using System.Net.Http;
 
-request.Method = "<%= @method.toUpperCase() %>";
-<% if @headers and @helpers.isNotEmpty @headers: %>
+var baseAddress = "<%- @protocol + @host %>";
 
-<% for header, value of @headers: %><% header = header.toLowerCase() %>
-<% if header in ['accept', 'connection', 'date', 'expect', 'host', 'range', 'referer'] : %>request.<%- header.charAt(0).toUpperCase() %><%- header.substring(1).toLowerCase() %> = <%= @helpers.escape value %>;
-<% else if header is 'content-length': %>request.ContentLength = <%= @helpers.escape value %>;
-<% else if header is 'content-type': %>request.ContentType = <%= @helpers.escape value %>;
-<% else if header is 'if-modified-since': %>request.IfModifiedSince = <%= @helpers.escape value %>;
-<% else if header is 'transfer-encoding': %>request.TransferEncoding = <%= @helpers.escape value %>;
-<% else if header is 'user-agent': %>request.UserAgent = <%= @helpers.escape value %>;
-<% else if header is 'proxy-connection': %>request.ProxyConnection = <%= @helpers.escape value %>;
-<% else: %>request.Headers.Add(<%= @helpers.escape header %>, <%= @helpers.escape value %>);
-<% end %>
-<% end %>
-<% end %>
-<% if @body?.length > 0: %>
-<% if @method.toUpperCase() is 'POST' or @method.toUpperCase() is 'PUT' or @method.toUpperCase() is 'DELETE' or @body.length > 0: %>
-byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(<%= @helpers.escape @body %>);
-request.ContentLength = byteArray.Length;
-using (var writer = request.GetRequestStream()){writer.Write(byteArray, 0, byteArray.Length);}
-<% end %>
-<% else: %>
-request.ContentLength = 0;
-<% end %>
+using (var httpClient = new HttpClient{ BaseAddress = new Uri(baseAddress) })
+{
 
-string responseContent=null;
-using (var response = request.GetResponse() as System.Net.HttpWebResponse) {
-  using (var reader = new System.IO.StreamReader(response.GetResponseStream())) {
-    responseContent = reader.ReadToEnd();
-  }
-}</code></pre></section>
+  <% if @helpers.hasHeaders(): %>
+  <% for header, value of @headers: %><% header = header.toLowerCase() %>
+  <% if header not in ['content-type', 'content-length']: %>
+  httpClient.DefaultRequestHeaders.TryAddWithoutValidation("<%- header %>", "<%- value %>");
+  <% else if header is 'content-type': %>
+  <% @content_type = value %>
+  <% end %>
+  <% end %>
+  <% end %>
+
+  <% if @method in ['GET', 'DELETE']: %>
+  var response = await httpClient.<%- @method.charAt(0).toUpperCase() + @method.substring(1).toLowerCase() %>Async("<%- @uriTemplate %>");
+  <% else if @method in ['POST', 'PUT']: %>
+
+  <% if @content_type? : %>
+  var content = new StringContent(<%- @body %>, System.Text.Encoding.Default, "<%- @content_type %>");
+  <% else : %>
+  var content = new StringContent(<%- @body %>);
+  <% end %>
+
+  var response = await httpClient.<%- @method.charAt(0).toUpperCase() + @method.substring(1).toLowerCase() %>Async("<%- @uriTemplate %>", content);
+  <% end %>
+
+  string responseData = await response.Content.ReadAsStringAsync();
+
+}
+</code></pre></section>
