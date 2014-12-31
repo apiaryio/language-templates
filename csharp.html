@@ -7,12 +7,12 @@
 //Be sure to run "Install-Package Microsoft.AspNet.WebApi.Client" from your nuget command line.
 using System.Net.Http;
 
-var baseAddress = "<%- @protocol + @host %>";
+var baseAddress = "<%- @apiUrl %>";
 
 using (var httpClient = new HttpClient{ BaseAddress = new Uri(baseAddress) })
 {
 
-  <% if @helpers.hasHeaders(): %>
+  <% if @helpers.isNotEmpty @headers: %>
   <% for header, value of @headers: %><% header = header.toLowerCase() %>
   <% if header not in ['content-type', 'content-length']: %>
   httpClient.DefaultRequestHeaders.TryAddWithoutValidation("<%- header %>", "<%- value %>");
@@ -23,16 +23,16 @@ using (var httpClient = new HttpClient{ BaseAddress = new Uri(baseAddress) })
   <% end %>
 
   <% if @method in ['GET', 'DELETE']: %>
-  var response = await httpClient.<%- @method.charAt(0).toUpperCase() + @method.substring(1).toLowerCase() %>Async("<%- @uriTemplate %>");
+  var response = await httpClient.<%- @method.charAt(0).toUpperCase() + @method.substring(1).toLowerCase() %>Async("<%- @url %>");
   <% else if @method in ['POST', 'PUT']: %>
 
   <% if @content_type? : %>
-  var content = new StringContent(<%- @body %>, System.Text.Encoding.Default, "<%- @content_type %>");
+  var content = new StringContent(<%- @helpers.escape(@body) %>, System.Text.Encoding.Default, "<%- @content_type %>");
   <% else : %>
-  var content = new StringContent(<%- @body %>);
+  var content = new StringContent(<%- @helpers.escape(@body) %>);
   <% end %>
 
-  var response = await httpClient.<%- @method.charAt(0).toUpperCase() + @method.substring(1).toLowerCase() %>Async("<%- @uriTemplate %>", content);
+  var response = await httpClient.<%- @method.charAt(0).toUpperCase() + @method.substring(1).toLowerCase() %>Async("<%- @url %>", content);
   <% end %>
 
   string responseData = await response.Content.ReadAsStringAsync();
