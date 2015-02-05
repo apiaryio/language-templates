@@ -34,9 +34,6 @@ using (var httpClient = new HttpClient{ BaseAddress = baseAddress })
       {
         <% end: %>
         <% else: %>
-        <% if !@body?: %>
-        <% @body = "" %>
-        <% end: %>
         <% if @content_type? : %>
         using (var content = new StringContent("<%- @helpers.escape @body %>", System.Text.Encoding.Default, "<%- @content_type %>"))
         <% else : %>
