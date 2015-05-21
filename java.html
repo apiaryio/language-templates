@@ -34,8 +34,7 @@ Entity&lt;String&gt; payload = Entity.text(<%= if @body then @helpers.escape(@bo
 <% end %>
 <% end %>
 <% end %>
-Response response = client.target("<%= @apiUrl %>")
-  .path("<%= @url %>")
+Response response = client.target("<%= @apiUrl %><%= @url %>")
 <% switch @helpers.getContentType @headers : %>
 <% when 'application/json' : %>
   .request(MediaType.APPLICATION_JSON_TYPE)
